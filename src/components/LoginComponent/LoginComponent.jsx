@@ -13,7 +13,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { checkCode, loginApi } from '../../config/API';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../redux/userSlice';
-import axios from 'axios';
+import axios from '../../config/customAxios';
 
 const validationSchema = yup.object({
     email: yup
@@ -66,11 +66,12 @@ const LoginComponent = () => {
             if (checkCode(rs.statusCode)) {
                 //add userData to redux
                 dispatch(setUser(rs.data.user))
+                console.log(rs.data.tokens)
                 //navigate
-                navigate('/play')
+                // navigate('/play')
             }
         } catch (error) {
-            setErrorMessage("Wrong credentials provided")
+            setErrorMessage("Incorrect email or password")
         }
         setLoading(false)
     };

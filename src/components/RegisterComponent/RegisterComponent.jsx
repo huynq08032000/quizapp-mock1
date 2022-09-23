@@ -37,7 +37,7 @@ const RegisterComponent = () => {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState({messContent : '', type : ''})
     const paperStyle = {
-        height: '50vh',
+        height: '60vh',
         maxWidth: 400,
         margin: '20px auto',
         padding: '40px'
@@ -86,7 +86,7 @@ const RegisterComponent = () => {
                     <Grid align='center'>
                         <Avatar style={{ backgroundColor: '#1bbd7e' }}><LockOutlined /></Avatar>
                         <Typography variant="h1" style={{ fontSize: '50px' }}>Sign Up</Typography>
-                        {message &&
+                        {message.messContent &&
                             <Alert severity={message.type} style={{ margin: '10px 0' }}>
                                 {message.messContent}
                             </Alert>
@@ -128,7 +128,7 @@ const RegisterComponent = () => {
                             fullWidth
                             id="confirmPassword"
                             name="confirmPassword"
-                            label="confirmPassword"
+                            label="Confirm Password"
                             type="password"
                             value={formik.values.confirmPassword}
                             onChange={myHandleChange}
