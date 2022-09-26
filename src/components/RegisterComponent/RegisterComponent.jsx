@@ -75,7 +75,7 @@ const RegisterComponent = () => {
                 setMessage({...message , messContent : rs.message , type : 'success' })
             }
         } catch (error) {
-            setMessage({...message , messContent : 'User with that email already exists' , type : 'error' })
+            setMessage({...message , messContent : error.response.data.message , type : 'error' })
         }
         setLoading(false)
     };

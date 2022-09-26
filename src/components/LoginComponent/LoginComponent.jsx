@@ -71,7 +71,7 @@ const LoginComponent = () => {
                 // navigate('/play')
             }
         } catch (error) {
-            setErrorMessage("Incorrect email or password")
+            setErrorMessage(error.response.data.message)
         }
         setLoading(false)
     };
