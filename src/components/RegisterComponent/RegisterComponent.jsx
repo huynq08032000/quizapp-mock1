@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Avatar, Grid, Paper, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import TextField from "@material-ui/core/TextField";
@@ -9,9 +8,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { regexEmail } from '../../config/regex';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { checkCode, registerApi, sucessCode } from '../../config/API';
-import { useNavigate } from 'react-router-dom';
+import { checkCode, registerApi} from '../../config/API';
 import axios from 'axios';
+import { paperStyle } from '../StyleComponent/StyleCompoent';
 
 const validationSchema = yup.object({
     name: yup
@@ -32,16 +31,8 @@ const validationSchema = yup.object({
 });
 
 const RegisterComponent = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState({messContent : '', type : ''})
-    const paperStyle = {
-        height: '60vh',
-        maxWidth: 400,
-        margin: '20px auto',
-        padding: '40px'
-    }
+    const [message, setMessage] = useState({messContent : '', type : ''})    
     const formik = useFormik({
         initialValues: {
             name: '',

@@ -8,9 +8,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { regexEmail } from '../../config/regex';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { checkCode, forgotApi, loginApi } from '../../config/API';
+import { checkCode, forgotApi} from '../../config/API';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../config/customAxios';
+import { paperStyle } from '../StyleComponent/StyleCompoent';
 
 const validationSchema = yup.object({
     email: yup
@@ -23,12 +24,6 @@ const ForgotPasswordComponent = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState({ messContent: '', type: '' })
-    const paperStyle = {
-        height: '50vh',
-        maxWidth: 400,
-        margin: '20px auto',
-        padding: '40px'
-    }
     const formik = useFormik({
         initialValues: {
             email: "",

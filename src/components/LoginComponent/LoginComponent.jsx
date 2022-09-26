@@ -14,6 +14,9 @@ import { checkCode, loginApi } from '../../config/API';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../redux/userSlice';
 import axios from '../../config/customAxios';
+import { paperStyle } from '../StyleComponent/StyleCompoent';
+import Cookies from 'js-cookie';
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '../../config/token';
 
 const validationSchema = yup.object({
     email: yup
@@ -31,12 +34,7 @@ const LoginComponent = () => {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
-    const paperStyle = {
-        height: '50vh',
-        maxWidth: 400,
-        margin: '20px auto',
-        padding: '40px'
-    }
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -66,9 +64,13 @@ const LoginComponent = () => {
             if (checkCode(rs.statusCode)) {
                 //add userData to redux
                 dispatch(setUser(rs.data.user))
-                console.log(rs.data.tokens)
+
+                // add cookie
+                Cookies.set('USER', JSON.stringify(rs.data.user),{expires : form.rememberMe? 7 : undefined})
+                Cookies.set(ACCESS_TOKEN_KEY, rs.data.tokens.access_token.access_token, {expires : form.rememberMe? 1/24 : undefined})
+                Cookies.set(REFRESH_TOKEN_KEY, rs.data.tokens.refresh_token.refresh_token, {expires : form.rememberMe? 7 : undefined})
                 //navigate
-                // navigate('/play')
+                navigate('/play')
             }
         } catch (error) {
             setErrorMessage(error.response.data.message)
