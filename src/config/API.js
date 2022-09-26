@@ -14,6 +14,4 @@ export const checkCode = (code) => {
     const rs = sucessCode.find(el => el === code)
     return rs ? true : false
 }
-export const config = {
-    headers: {"Authorization" : `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`}
-}
+
