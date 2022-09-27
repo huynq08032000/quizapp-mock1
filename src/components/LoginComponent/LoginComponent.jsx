@@ -66,7 +66,6 @@ const LoginComponent = () => {
                 dispatch(setUser(rs.data.user))
 
                 // add cookie
-                Cookies.set('USER', JSON.stringify(rs.data.user),{expires : form.rememberMe? 7 : undefined})
                 Cookies.set(ACCESS_TOKEN_KEY, rs.data.tokens.access_token.access_token, {expires : form.rememberMe? 1/24 : undefined})
                 Cookies.set(REFRESH_TOKEN_KEY, rs.data.tokens.refresh_token.refresh_token, {expires : form.rememberMe? 7 : undefined})
                 //navigate
