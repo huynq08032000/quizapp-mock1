@@ -51,5 +51,5 @@ export const submitQuestions = createAsyncThunk('questions/submitQuestions', asy
     }
 })
 
-export const { setquestionsSubmit } = questionsSubmitSlice.actions;
+export const { setquestionsSubmit , resetQuestionSubmit } = questionsSubmitSlice.actions;
 export default questionsSubmitSlice.reducer;

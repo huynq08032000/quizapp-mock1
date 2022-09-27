@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchQuestions } from "../../redux/questionsSlice";
+import { resetQuestionSubmit } from "../../redux/questionsSubmitSlice";
 
 const validationSchema = yup.object({
     number: yup
@@ -32,6 +33,7 @@ const FormInputNumberQuestionComponent = () => {
     };
     const handlePlay = async (values) => {
         dispatch(fetchQuestions(values.number))
+        dispatch(resetQuestionSubmit())
     }
     return (
         <>
