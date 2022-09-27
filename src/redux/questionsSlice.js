@@ -27,6 +27,12 @@ const questionsSlice = createSlice({
         setIndex: (state, action) =>{
             state.index = action.payload
         },
+        resetQuestions: (state, action) => {
+            state.questions = []
+            state.status = false
+            state.index = 0
+            state.number = 0
+        }
     }, 
     extraReducers : (builder) => {
         builder
@@ -54,5 +60,5 @@ export const fetchQuestions = createAsyncThunk('questions/fetchQuestions', async
         console.log(error)
     }
 })
-export const { setListQuestion, setIndex, setAnswerQuestion} = questionsSlice.actions;
+export const { setListQuestion, setIndex, setAnswerQuestion, resetQuestions} = questionsSlice.actions;
 export default questionsSlice.reducer;

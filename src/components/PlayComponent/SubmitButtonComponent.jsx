@@ -2,12 +2,15 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { questionsSubmitAPI } from "../../config/API";
 import { ACCESS_TOKEN_KEY } from "../../config/token";
+import { resetQuestions } from "../../redux/questionsSlice";
+import { submitQuestions } from "../../redux/questionsSubmitSlice";
 import './css/style.css'
 const SubmitButtonComponent = () => {
     const questions = useSelector(state => state.questions.questions)
+    const dispatch = useDispatch()
     const handleSubmit = async () => {
         const questionsSubmit = questions.map(item => {
             return {
@@ -15,18 +18,9 @@ const SubmitButtonComponent = () => {
                 answersSubmittedId: item.answersSubmittedId?item.answersSubmittedId : []
             }
         })
-        try {
-            const res = await axios.post(
-                questionsSubmitAPI,{listQuestionSubmitted : [...questionsSubmit]} ,{ 
-                    headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` },
-                }
-            )
-            console.log(res.data.data)
-        } catch (error) {
-            console.log(error)
-        }
+        dispatch(submitQuestions(questionsSubmit))
+        dispatch(resetQuestions())
     }
-
 
     return (
         <>

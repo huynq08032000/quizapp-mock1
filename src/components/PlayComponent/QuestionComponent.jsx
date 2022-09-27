@@ -59,7 +59,7 @@ const QuestionComponent = () => {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     {
                         currentQuestion?.answers?.map((item) => {
-                            const color = setColor(item.id, currentQuestion.answersSubmittedId)
+                            const color = setColor(item.id, currentQuestion.answersSubmittedId, '#25bd9396', '#bdbdbd70')
                             return (
                                 <Grid md={4} sm={6} xs={12} key={item.id}>
                                     <Item style={{ backgroundColor: `${color}` }} onClick={() => { handleAnswer(item.id) }} >{item.content}</Item>

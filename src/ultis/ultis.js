@@ -3,7 +3,7 @@ export const numInArray = (num, arr) => {
     return found ? true : false
 }
 
-export const setColor = (num, arr) => {
-    if (numInArray(num, arr)) return '#25bd9396'
-    return '#bdbdbd70' 
+export const setColor = (num, arr, color, color2) => {
+    if (numInArray(num, arr)) return color
+    return color2 
 }
