@@ -22,7 +22,6 @@ const HeaderComponent = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const title = 'QuizzApp'
     const user = useSelector(state => state.user.user)
-    
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
