@@ -8,9 +8,11 @@ import Routing from './Routes/Routing';
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    const user = Cookies.get(USER)
     const access_token = Cookies.get(ACCESS_TOKEN_KEY)
-    dispatch(setUser(JSON.parse(user)))
+    if (access_token) {
+      const user = Cookies.get(USER)
+      dispatch(setUser(JSON.parse(user)))
+    }
   }, [])
   return (
     <>

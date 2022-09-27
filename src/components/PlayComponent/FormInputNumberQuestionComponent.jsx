@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from '@mui/material/TextField';
 import { Grid } from "@material-ui/core";
 import { LoadingButton } from "@mui/lab";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
-import { config, questionsPlayAPI } from "../../config/API";
-import Cookies from "js-cookie";
-import { ACCESS_TOKEN_KEY } from "../../config/token";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchQuestions } from "../../redux/questionsSlice";
 
 const validationSchema = yup.object({
     number: yup
@@ -17,7 +15,8 @@ const validationSchema = yup.object({
 });
 
 const FormInputNumberQuestionComponent = () => {
-    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const loading = useSelector(state => state.questions.status)
     const formik = useFormik({
         initialValues: {
             number: "",
@@ -25,22 +24,14 @@ const FormInputNumberQuestionComponent = () => {
         validationSchema: validationSchema,
         onSubmit: (values) => {
             handlePlay(values);
+            formik.resetForm()
         }
     });
     const myHandleChange = (event) => {
         formik.handleChange(event);
     };
     const handlePlay = async (values) => {
-        setLoading(true)
-        try {
-            const res = await axios.get(
-                questionsPlayAPI + values.number,{ headers: {"Authorization" : `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`} }
-            )
-            console.log(res.data.data)
-        } catch (error) {
-            console.log(error)
-        }
-        setLoading(false)
+        dispatch(fetchQuestions(values.number))
     }
     return (
         <>
@@ -56,7 +47,7 @@ const FormInputNumberQuestionComponent = () => {
                         onChange={myHandleChange}
                         error={formik.touched.number && Boolean(formik.errors.number)}
                         helperText={formik.touched.number && formik.errors.number} />
-                    <LoadingButton color="primary" variant="contained" type="submit" style={{ margin: '10px' }} loading={loading} >
+                    <LoadingButton color="primary" variant="contained" type="submit" style={{ margin: '10px' }} loading={loading}>
                         Play
                     </LoadingButton>
                 </form>
