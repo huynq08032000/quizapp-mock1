@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import FormInputNumberQuestionComponent from "./FormInputNumberQuestionComponent";
 import QuestionComponent from "./QuestionComponent";
 import SubmitButtonComponent from "./SubmitButtonComponent";
+import ResultComponent from "./ResultComponent";
 
 const PlayComponent = () => {
     // const user = useSelector(state => state.user.user)
@@ -27,7 +28,7 @@ const PlayComponent = () => {
                     }
                     {
                         numberQuestionChecked > 0 ?
-                            <>Result</> : <></>
+                            <ResultComponent/> : <></>
                     }
                 </Box>
             </Container>

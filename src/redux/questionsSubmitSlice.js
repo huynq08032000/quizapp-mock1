@@ -9,6 +9,7 @@ const initState = {
     loading : false,
     index : 0,
     number : 0,
+    score : 0
 }
 
 const questionsSubmitSlice = createSlice({
@@ -23,6 +24,10 @@ const questionsSubmitSlice = createSlice({
             state.loading = false
             state.index = 0
             state.number = 0
+            state.score = 0
+        },
+        setIndexQuestionsChecked: (state, action) => {
+            state.index = action.payload
         }
     }, 
     extraReducers : (builder) => {
@@ -34,6 +39,7 @@ const questionsSubmitSlice = createSlice({
                 state.questionsChecked = action.payload.listQuestionChecked;
                 state.status = false
                 state.number = action.payload.listQuestionChecked.length
+                state.score = action.payload.totalScore
             })
     }
 })
@@ -48,8 +54,9 @@ export const submitQuestions = createAsyncThunk('questions/submitQuestions', asy
         return res.data.data
     } catch (error) {
         console.log(error)
+        return {}
     }
 })
 
-export const { setquestionsSubmit , resetQuestionSubmit } = questionsSubmitSlice.actions;
+export const { setquestionsSubmit , resetQuestionSubmit, setIndexQuestionsChecked} = questionsSubmitSlice.actions;
 export default questionsSubmitSlice.reducer;
