@@ -5,7 +5,6 @@ import { LockOutlined } from '@material-ui/icons'
 import TextField from "@material-ui/core/TextField";
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { regexEmail } from '../../config/regex';
@@ -14,9 +13,10 @@ import { checkCode, loginApi } from '../../config/API';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../redux/userSlice';
 import axios from '../../config/customAxios';
-import { paperStyle } from '../StyleComponent/StyleCompoent';
+import { paperStyle, toastCss } from '../StyleComponent/StyleCompoent';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '../../config/token';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object({
     email: yup
@@ -33,7 +33,6 @@ const LoginComponent = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
 
     const formik = useFormik({
         initialValues: {
@@ -72,7 +71,7 @@ const LoginComponent = () => {
                 navigate('/play')
             }
         } catch (error) {
-            setErrorMessage(error.response.data.message)
+            toast.error(error.response.data.message, toastCss)
         }
         setLoading(false)
     };
@@ -83,11 +82,6 @@ const LoginComponent = () => {
                     <Grid align='center'>
                         <Avatar style={{ backgroundColor: '#1bbd7e' }}><LockOutlined /></Avatar>
                         <Typography variant="h1" style={{ fontSize: '50px' }}>Sign In</Typography>
-                        {errorMessage &&
-                            <Alert severity="error" style={{ margin: '10px 0' }}>
-                                {errorMessage}
-                            </Alert>
-                        }
                     </Grid>
                     <form onSubmit={formik.handleSubmit}>
                         <TextField

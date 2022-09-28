@@ -1,14 +1,15 @@
 import { Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ThumbnailComponent from "./ThumbnailComponent";
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Pagination from "@mui/material/Pagination";
-import { setAnswerQuestion, setIndex } from "../../redux/questionsSlice";
-import { numInArray, setColor } from "../../ultis/ultis";
+import { setAnswerQuestion, setIndex } from "../../../redux/questionsSlice";
+import { numInArray, setColor } from "../../../ultis/ultis";
+import { defaultThumbnail } from "../../../config/regex";
+import ThumbnailComponent from "./ThumbnailComponent";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -54,7 +55,7 @@ const QuestionComponent = () => {
             <Typography variant="h2" component="h2" style={{ fontSize: '30px' }}>
                 {currentQuestion?.title}
             </Typography>;
-            <ThumbnailComponent thumbnailSrc={currentQuestion?.thumbnail_link} />
+            <ThumbnailComponent thumbnailSrc={currentQuestion?.thumbnail_link ? currentQuestion?.thumbnail_link : defaultThumbnail} />
             <Box sx={{ width: '100%', margin: '50px 0' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     {

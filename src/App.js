@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { refreshTokenApi, userWithTokenApi } from './config/API';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './config/token';
 import { setUser } from './redux/userSlice';
@@ -38,6 +39,7 @@ function App() {
   return (
     <>
       <Routing />
+      <ToastContainer/>
     </>
   );
 }

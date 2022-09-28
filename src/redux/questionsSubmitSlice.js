@@ -50,7 +50,6 @@ export const submitQuestions = createAsyncThunk('questions/submitQuestions', asy
                 headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` },
             }
         )
-        console.log(res.data.data)
         return res.data.data
     } catch (error) {
         console.log(error)

@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import HeaderComponent from "../Header/HeaderComponent";
+import HeaderComponent from "../../Header/HeaderComponent";
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import FormInputNumberQuestionComponent from "./FormInputNumberQuestionComponent";
-import QuestionComponent from "./QuestionComponent";
-import SubmitButtonComponent from "./SubmitButtonComponent";
-import ResultComponent from "./ResultComponent";
+import FormInputNumberQuestionComponent from "../ChildComponent/FormInputNumberQuestionComponent";
+import QuestionComponent from "../ChildComponent/QuestionComponent";
+import SubmitButtonComponent from "../ChildComponent/SubmitButtonComponent";
+import ResultComponent from "../ChildComponent/ResultComponent";
 
 const PlayComponent = () => {
     // const user = useSelector(state => state.user.user)

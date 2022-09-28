@@ -1,6 +1,6 @@
 import ForgotPasswordComponent from "../components/ForgotPassword/ForgotPasswordComponent";
 import LoginComponent from "../components/LoginComponent/LoginComponent";
-import PlayComponent from "../components/PlayComponent/PlayComponent";
+import PlayComponent from "../components/PlayComponent/MainComponent/PlayComponent";
 import RegisterComponent from "../components/RegisterComponent/RegisterComponent";
 
 const ROUTES = [

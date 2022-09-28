@@ -41,7 +41,7 @@ const questionsSlice = createSlice({
             })
             .addCase(fetchQuestions.fulfilled,(state,action)=>{
                 state.questions = action.payload.data;
-                state.number = action.payload.number
+                state.number = action.payload.data.length
                 state.status = false
             })
     }
@@ -54,7 +54,6 @@ export const fetchQuestions = createAsyncThunk('questions/fetchQuestions', async
         )
         return {
             data : res.data.data,
-            number : number
         }
     } catch (error) {
         console.log(error)

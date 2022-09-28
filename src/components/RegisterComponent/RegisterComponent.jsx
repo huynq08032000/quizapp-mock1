@@ -3,14 +3,14 @@ import { Avatar, Grid, Paper, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import TextField from "@material-ui/core/TextField";
 import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { regexEmail } from '../../config/regex';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { checkCode, registerApi} from '../../config/API';
 import axios from 'axios';
-import { paperStyle } from '../StyleComponent/StyleCompoent';
+import { paperStyle, toastCss } from '../StyleComponent/StyleCompoent';
+import { toast } from 'react-toastify';
 
 const validationSchema = yup.object({
     name: yup
@@ -32,7 +32,6 @@ const validationSchema = yup.object({
 
 const RegisterComponent = () => {
     const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState({messContent : '', type : ''})    
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -63,10 +62,10 @@ const RegisterComponent = () => {
             const rs = res.data
             if (checkCode(rs.statusCode)) {
                 //set message when register success
-                setMessage({...message , messContent : rs.message , type : 'success' })
+                toast.success(rs.message, toastCss)
             }
         } catch (error) {
-            setMessage({...message , messContent : error.response.data.message , type : 'error' })
+            toast.error(error.response.data.message, toastCss)
         }
         setLoading(false)
     };
@@ -77,11 +76,6 @@ const RegisterComponent = () => {
                     <Grid align='center'>
                         <Avatar style={{ backgroundColor: '#1bbd7e' }}><LockOutlined /></Avatar>
                         <Typography variant="h1" style={{ fontSize: '50px' }}>Sign Up</Typography>
-                        {message.messContent &&
-                            <Alert severity={message.type} style={{ margin: '10px 0' }}>
-                                {message.messContent}
-                            </Alert>
-                        }
                     </Grid>
                     <form onSubmit={formik.handleSubmit}>
                         <TextField

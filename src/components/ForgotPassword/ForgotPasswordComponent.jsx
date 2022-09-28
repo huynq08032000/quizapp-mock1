@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Avatar, Grid, Paper, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import TextField from "@material-ui/core/TextField";
-import Alert from '@mui/material/Alert';
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { regexEmail } from '../../config/regex';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { checkCode, forgotApi} from '../../config/API';
-import { useNavigate } from 'react-router-dom';
+import { checkCode, forgotApi } from '../../config/API';
 import axios from '../../config/customAxios';
-import { paperStyle } from '../StyleComponent/StyleCompoent';
+import { paperStyle, toastCss } from '../StyleComponent/StyleCompoent';
+import { toast } from 'react-toastify';
+import { Link } from '@mui/material';
 
 const validationSchema = yup.object({
     email: yup
@@ -21,9 +20,7 @@ const validationSchema = yup.object({
 });
 
 const ForgotPasswordComponent = () => {
-    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState({ messContent: '', type: '' })
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -49,10 +46,10 @@ const ForgotPasswordComponent = () => {
             const rs = res.data
             if (checkCode(rs.statusCode)) {
                 //set message when register success
-                setMessage({ ...message, messContent: rs.message, type: 'success' })
+                toast.success(rs.message, toastCss)
             }
         } catch (error) {
-            setMessage({ ...message, messContent: error.response.data.message, type: 'error' })
+            toast.error(error.response.data.message, toastCss)
         }
         setLoading(false)
     };
@@ -63,11 +60,6 @@ const ForgotPasswordComponent = () => {
                     <Grid align='center'>
                         <Avatar style={{ backgroundColor: '#1bbd7e' }}><LockOutlined /></Avatar>
                         <Typography variant="h1" style={{ fontSize: '50px' }}>Forgot Password</Typography>
-                        {message.messContent &&
-                            <Alert severity={message.type} style={{ margin: '10px 0' }}>
-                                {message.messContent}
-                            </Alert>
-                        }
                     </Grid>
                     <form onSubmit={formik.handleSubmit}>
                         <TextField
@@ -83,6 +75,12 @@ const ForgotPasswordComponent = () => {
                         <LoadingButton color="primary" variant="contained" fullWidth type="submit" style={{ marginTop: '10px', marginBottom: '10px' }} loading={loading}>
                             Submit
                         </LoadingButton>
+                        <Typography>
+                            Do you have an account?
+                            <Link href='/login' underline='hover'>
+                                Sign in
+                            </Link>
+                        </Typography>
                     </form>
                 </Paper>
             </Grid>
