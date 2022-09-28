@@ -13,12 +13,23 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { numInArray } from "../../ultis/ultis";
 
-const pages = [];
+const pages = [
+    {
+        title: 'Admin',
+        href: '/admin'
+    },
+    {
+        title: 'Go to play',
+        href: '/play'
+    }
+];
 const settings = ['Profile', 'Account', 'Logout'];
 
 
 const HeaderComponent = () => {
+    const userRoles = useSelector(state => state.user.user?.roles)
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -90,9 +101,9 @@ const HeaderComponent = () => {
                                     display: { xs: 'block', md: 'none' },
                                 }}
                             >
-                                {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
+                                {numInArray('admin', userRoles) && pages.map((page) => (
+                                    <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                        <Typography textAlign="center">{page.title}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -116,13 +127,13 @@ const HeaderComponent = () => {
                             {title}
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
+                            {numInArray('admin', userRoles) && pages.map((page) => (
                                 <Button
-                                    key={page}
+                                    key={page.title}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page}
+                                    {page.title}
                                 </Button>
                             ))}
                         </Box>
