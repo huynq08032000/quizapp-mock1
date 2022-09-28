@@ -49,6 +49,9 @@ const HeaderComponent = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const handleNavigate = (url) => {
+        navigate(url)
+    }
     return (
         <>
             <AppBar position="static">
@@ -58,7 +61,6 @@ const HeaderComponent = () => {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="/play"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -103,7 +105,7 @@ const HeaderComponent = () => {
                             >
                                 {numInArray('admin', userRoles) && pages.map((page) => (
                                     <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page.title}</Typography>
+                                        <Typography textAlign="center" onClick={() => { handleNavigate(page.href) }}>{page.title}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -130,10 +132,13 @@ const HeaderComponent = () => {
                             {numInArray('admin', userRoles) && pages.map((page) => (
                                 <Button
                                     key={page.title}
-                                    onClick={handleCloseNavMenu}
+                                    onClick={()=>{
+                                        handleCloseNavMenu()
+                                        handleNavigate(page.href)
+                                    }}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page.title}
+                                    {page.title} 
                                 </Button>
                             ))}
                         </Box>

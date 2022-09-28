@@ -1,5 +1,5 @@
 export const numInArray = (num, arr) => {
-    const found = arr.find(element => element === num);
+    const found = arr?.find(element => element === num);
     return found ? true : false
 }
 
