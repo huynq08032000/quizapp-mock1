@@ -57,7 +57,7 @@ const HeaderComponent = () => {
             <AppBar position="static">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Typography
+                        {/* <Typography
                             variant="h6"
                             noWrap
                             component="a"
@@ -72,7 +72,7 @@ const HeaderComponent = () => {
                             }}
                         >
                             {title}
-                        </Typography>
+                        </Typography> */}
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
@@ -110,11 +110,10 @@ const HeaderComponent = () => {
                                 ))}
                             </Menu>
                         </Box>
-                        <Typography
+                        {/* <Typography
                             variant="h5"
                             noWrap
                             component="a"
-                            href=""
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex', md: 'none' },
@@ -127,7 +126,7 @@ const HeaderComponent = () => {
                             }}
                         >
                             {title}
-                        </Typography>
+                        </Typography> */}
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {numInArray('admin', userRoles) && pages.map((page) => (
                                 <Button

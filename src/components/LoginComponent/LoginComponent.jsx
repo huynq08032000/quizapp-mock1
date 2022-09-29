@@ -63,10 +63,11 @@ const LoginComponent = () => {
             if (checkCode(rs.statusCode)) {
                 //add userData to redux
                 dispatch(setUser(rs.data.user))
-
                 // add cookie
                 Cookies.set(ACCESS_TOKEN_KEY, rs.data.tokens.access_token.access_token, {expires : form.rememberMe? 1/24 : undefined})
                 Cookies.set(REFRESH_TOKEN_KEY, rs.data.tokens.refresh_token.refresh_token, {expires : form.rememberMe? 7 : undefined})
+                localStorage.setItem('isAuthen', true)
+                localStorage.setItem('roles', JSON.stringify(rs.data.user.roles))
                 //navigate
                 navigate('/play')
             }

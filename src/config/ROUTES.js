@@ -1,8 +1,10 @@
-import AdminComponent from "../components/AdminComponent/MainComponent/AdminComponent";
-import ForgotPasswordComponent from "../components/ForgotPassword/ForgotPasswordComponent";
-import LoginComponent from "../components/LoginComponent/LoginComponent";
-import PlayComponent from "../components/PlayComponent/MainComponent/PlayComponent";
-import RegisterComponent from "../components/RegisterComponent/RegisterComponent";
+import { lazy } from "react";
+
+const LoginComponent = lazy(()=> import('../components/LoginComponent/LoginComponent'))
+const RegisterComponent = lazy(() => import('../components/RegisterComponent/RegisterComponent'))
+const ForgotPasswordComponent = lazy(()=>import('../components/ForgotPassword/ForgotPasswordComponent'))
+const PlayComponent = lazy(()=>import('../components/PlayComponent/MainComponent/PlayComponent'))
+const AdminComponent = lazy(()=>import('../components/AdminComponent/MainComponent/AdminComponent'))
 
 const ROUTES = [
     {

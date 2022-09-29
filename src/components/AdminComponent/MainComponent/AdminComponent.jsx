@@ -1,9 +1,12 @@
 import React from "react";
+import HeaderComponent from "../../Header/HeaderComponent";
+import ManagementComponent from "../ChildComponent/ManagementComponent";
 
 const AdminComponent = () => {
     return (
         <>
-            Admin Page
+            <HeaderComponent/>
+            <ManagementComponent/>
         </>
     )
 }
