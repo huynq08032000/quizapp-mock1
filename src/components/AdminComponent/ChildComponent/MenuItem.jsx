@@ -5,7 +5,7 @@ const MenuItem = ({ title, href }) => {
     return (
         <>
             <div className="navbar-children">
-                <NavLink href={href} activeClassName="active" className={'nav-link'}>{title}</NavLink>
+                <NavLink to={href} className='nav-link'>{title}</NavLink>
             </div>
         </>
     )

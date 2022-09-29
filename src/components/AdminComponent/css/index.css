@@ -21,3 +21,8 @@
 .active:hover {
     color: #fcfcfc;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}

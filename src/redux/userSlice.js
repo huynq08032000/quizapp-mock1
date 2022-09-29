@@ -12,6 +12,8 @@ const userSlice = createSlice({
         setUser : (state, action) => {
             state.user = action.payload
             state.isAuthen = true
+            localStorage.setItem('isAuthen', true)
+            localStorage.setItem('roles', JSON.stringify(action.payload.roles))
         }
     }
 })
