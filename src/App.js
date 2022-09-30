@@ -15,7 +15,6 @@ function App() {
       .then(res => dispatch(setUser(res.data.data)))
       .catch(err => {
         console.log(err)
-        localStorage.clear()
       })
   },[dispatch])
   return (

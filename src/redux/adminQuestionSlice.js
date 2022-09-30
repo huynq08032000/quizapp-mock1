@@ -8,8 +8,10 @@ const initState = {
     status: false,
     index: 0,
     total: 0,
+    pageSize: 10,
     currentPage: 1,
-    totalPages: 0,
+    order: 'ASC',
+    sortField: 'id',
 }
 
 const questionsAdminSlice = createSlice({
@@ -19,6 +21,15 @@ const questionsAdminSlice = createSlice({
         setListQuestion: (state, action) => {
             state.questions = action.payload
         },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload
+        }, 
+        setOrder: (state, action) => {
+            state.order = action.payload
+        }, 
+        setSortField : (state, action) => {
+            state.sortField = action.payload
+        }
 
     },
     extraReducers: (builder) => {
@@ -39,7 +50,7 @@ const questionsAdminSlice = createSlice({
 export const fetchAllQuestions = createAsyncThunk('questions/fetchAllQuestions', async (paramsSearch) => {
     try {
         const res = await axios.get(`https://quangnh.xyz/v1/questions`, {
-            params : paramsSearch,
+            params: paramsSearch,
             headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }
         })
         return res.data.data
@@ -47,5 +58,5 @@ export const fetchAllQuestions = createAsyncThunk('questions/fetchAllQuestions',
         console.log(error)
     }
 })
-export const { setListQuestion } = questionsAdminSlice.actions;
+export const { setListQuestion, setCurrentPage, setOrder, setSortField } = questionsAdminSlice.actions;
 export default questionsAdminSlice.reducer;

@@ -9,16 +9,19 @@ const ProtectedRoute = ({ children, role }) => {
     const userRoles = JSON.parse(localStorage.getItem('roles'))
     const isAuthen = Boolean(localStorage.getItem('isAuthen'))
     const funCheck = (arr1, arr2) => {
-        const rs = arr1?.map((el) => {
-            return numInArray(el, arr2)
-        })
-        return numInArray(true, rs)
+        if (arr1) {
+            const rs = arr1?.map((el) => {
+                return numInArray(el, arr2)
+            })
+            return numInArray(true, rs)
+        }
+        return false
     }
 
     if (!isAuthen) {
         return <Navigate to="/login" replace />;
     } else {
-       if (!funCheck(userRoles, role)) return <Navigate to="/login" replace />;
+        if (!funCheck(userRoles, role)) return <Navigate to="/login" replace />;
     }
 
     return children;

@@ -4,6 +4,7 @@ import '../css/index.css'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import TableComponent from "./TableComponent";
+import SearchQuestionsComponent from "./SearchQuestionsComponent";
 
 const QuestionsManagementCompoent = () => {
     const navigate = useNavigate()
@@ -33,6 +34,7 @@ const QuestionsManagementCompoent = () => {
                     </div>
                 </div>
                 <div className="main-component" style={{paddingTop : '50px'}}>
+                    <SearchQuestionsComponent/>
                     <TableComponent/>
                 </div>
             </div>
