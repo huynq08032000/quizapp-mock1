@@ -5,7 +5,7 @@ import '../css/index.css';
 import MenuItem from "./MenuItem";
 
 const { Content, Footer, Sider } = Layout;
-const ManagementComponent = ({component}) => {
+const ManagementComponent = ({ component }) => {
     const [collapsed, setCollapsed] = useState(false);
     return (
         <Layout
@@ -14,9 +14,9 @@ const ManagementComponent = ({component}) => {
             }}
         >
             <Sider
-                collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(value) => setCollapsed(value)}
             >
                 <MenuItem title='Question' href='/admin' />
             </Sider>
@@ -25,7 +25,7 @@ const ManagementComponent = ({component}) => {
                     style={{
                         margin: "0 16px"
                     }}
-                >                    
+                >
                     {component}
                 </Content>
                 <Footer

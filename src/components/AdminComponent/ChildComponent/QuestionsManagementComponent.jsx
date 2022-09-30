@@ -3,6 +3,7 @@ import React from "react";
 import '../css/index.css'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
+import TableComponent from "./TableComponent";
 
 const QuestionsManagementCompoent = () => {
     const navigate = useNavigate()
@@ -30,6 +31,9 @@ const QuestionsManagementCompoent = () => {
                         endIcon={<AddIcon />
                         }>Add</Button>
                     </div>
+                </div>
+                <div className="main-component" style={{paddingTop : '50px'}}>
+                    <TableComponent/>
                 </div>
             </div>
         </>

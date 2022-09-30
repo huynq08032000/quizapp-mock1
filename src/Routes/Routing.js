@@ -16,7 +16,7 @@ const Routing = () => {
                             return <Route key={index} path={route.path} element={<ProtectedRoute role={route.role}>{route.component}</ProtectedRoute>} />
                         }
                     })}
-                    <Route path='/' element={<PlayComponent />} />
+                    <Route path='/' element={<ProtectedRoute role={'user'}><PlayComponent/></ProtectedRoute>} />
                     <Route path='*' element={<>404 Error</>} />
                 </Routes>
             </Suspense>

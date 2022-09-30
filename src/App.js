@@ -16,7 +16,6 @@ function App() {
       .catch(err => {
         console.log(err)
         localStorage.clear()
-        window.location.href('/login')
       })
   },[dispatch])
   return (
