@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, role }) => {
     const funCheck = (arr1, arr2) => {
         if (arr1) {
             const rs = arr1?.map((el) => {
-                return numInArray(el, arr2)
+                return numInArray(el, [...arr2])
             })
             return numInArray(true, rs)
         }
@@ -20,10 +20,10 @@ const ProtectedRoute = ({ children, role }) => {
 
     if (!isAuthen) {
         return <Navigate to="/login" replace />;
-    } else {
+    } 
+    else {
         if (!funCheck(userRoles, role)) return <Navigate to="/login" replace />;
     }
-
     return children;
 }
 
