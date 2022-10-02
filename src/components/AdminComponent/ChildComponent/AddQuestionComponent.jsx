@@ -48,10 +48,8 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
         }).then(res => {
             setImg(res.data.data)
             toast.success('Upload Success', toastCss)
-        })
-            .catch(err => toast.error(err.message, toastCss))
+        }).catch(err => toast.error(err.message, toastCss))
     }
-
     return (
         <>
             <div
@@ -90,7 +88,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
 
                     <Input
                         type="file"
-                        onChange={handleUploadFile}
+                        onChange={handleUploadFile}                    
                     />
 
                 </div>
