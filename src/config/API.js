@@ -10,6 +10,7 @@ export const questionsSubmitAPI= `${urlApi}/v1/questions/submit`
 export const refreshTokenApi = `${urlApi}/v1/authentication/refresh-token`
 export const userWithTokenApi = `${urlApi}/v1/user/my-profile`
 export const getQuestionById = `${urlApi}/v1/questions/`
+export const uploadThumbnailAPI = `${urlApi}/v1/questions/upload-thumbnail`
 
 export const checkCode = (code) => {
     const rs = sucessCode.find(el => el === code)
