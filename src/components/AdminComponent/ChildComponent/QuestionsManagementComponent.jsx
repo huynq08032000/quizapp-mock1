@@ -3,7 +3,7 @@ import React from "react";
 import '../css/index.css'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
-import TableComponent from "./TableComponent";
+import TableComponent from "./TableQuestionsComponent";
 import SearchQuestionsComponent from "./SearchQuestionsComponent";
 
 const QuestionsManagementCompoent = () => {
