@@ -13,6 +13,7 @@ export const getQuestionById = `${urlApi}/v1/questions/`
 export const uploadThumbnailAPI = `${urlApi}/v1/questions/upload-thumbnail`
 export const createQuestion = `${urlApi}/v1/questions`
 export const updateQuestionAPI = `${urlApi}/v1/questions/`
+export const deleteQuestionAPI = `${urlApi}/v1/questions/`
 export const createAnswerApi = `${urlApi}/v1/answers`
 export const updateAnswerApi = `${urlApi}/v1/answers/`
 export const deleteAnswerApi = `${urlApi}/v1/answers/`

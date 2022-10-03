@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initState = {
     isOpenUpdate : false,
     isOpenView : false, 
+    isOpenDelete : false,
     idQuestion : 0,
 }
 
@@ -15,9 +16,12 @@ const modalSlice = createSlice({
         },
         setIdQuestion : (state, action) => {
             state.idQuestion = action.payload
+        },
+        setIsOpenDelete : (state, action) => {
+            state.isOpenDelete = action.payload
         }
     }
 })
 
-export const {setIsOpenUpdate, setIdQuestion} = modalSlice.actions;
+export const {setIsOpenUpdate, setIdQuestion, setIsOpenDelete} = modalSlice.actions;
 export default modalSlice.reducer;

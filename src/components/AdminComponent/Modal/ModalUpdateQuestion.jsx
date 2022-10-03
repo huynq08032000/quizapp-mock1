@@ -41,7 +41,6 @@ const ModalUpdateQuestion = ({ }) => {
     const handleCancel = () => {
         dispatch(setIsOpenUpdate(false))
     };
-    const [loading, setLoading] = useState(false)
 
     const formik = useFormik({
         initialValues: {

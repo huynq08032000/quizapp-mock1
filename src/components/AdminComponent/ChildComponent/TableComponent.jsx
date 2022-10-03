@@ -6,7 +6,8 @@ import 'antd/dist/antd.css';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { defaultThumbnail } from "../../../config/regex";
 import ModalUpdate from "../Modal/ModalUpdateQuestion";
-import { setIdQuestion, setIsOpenUpdate } from "../../../redux/modalSilce";
+import { setIdQuestion, setIsOpenDelete, setIsOpenUpdate } from "../../../redux/modalSilce";
+import ModalDeleteQuestion from "../Modal/ModalDeleteQuestion";
 
 const TableComponent = () => {
     const moment = require("moment");
@@ -19,6 +20,7 @@ const TableComponent = () => {
     const order = useSelector(state => state.questionsAdminSlice.order)
     const sortField = useSelector(state => state.questionsAdminSlice.sortField)
     const currentPage = useSelector(state => state.questionsAdminSlice.currentPage)
+    const isDeleteQuestion = useSelector(state => state.questionsAdminSlice.isDeleteQuestion)
     const [data, setData] = useState([])
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -34,14 +36,16 @@ const TableComponent = () => {
     };
 
     useEffect(() => {
-        const paramSearch = {
-            order: order,
-            sortField: sortField,
-            page: currentPage,
-            size: pageSize,
+        if (currentPage > 0 || isDeleteQuestion) {
+            const paramSearch = {
+                order: order,
+                sortField: sortField,
+                page: currentPage,
+                size: pageSize,
+            }
+            dispatch(fetchAllQuestions(paramSearch))
         }
-        dispatch(fetchAllQuestions(paramSearch))
-    }, [currentPage])
+    }, [currentPage, isDeleteQuestion])
 
     useEffect(() => {
         if (questions) {
@@ -115,7 +119,8 @@ const TableComponent = () => {
                     /> */}
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} size={'large'} danger
                         onClick={() => {
-                            console.log(dataIndex.idQuestion)
+                            dispatch(setIsOpenDelete(true))
+                            dispatch(setIdQuestion(dataIndex.idQuestion))
                         }}
                     />
 
@@ -138,7 +143,8 @@ const TableComponent = () => {
                 loading={loading}
                 onChange={handleTableChange}
             />
-            <ModalUpdate/>
+            <ModalUpdate />
+            <ModalDeleteQuestion />
         </>
     )
 }

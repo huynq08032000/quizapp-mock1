@@ -42,8 +42,6 @@ const currentQuestionSlice = createSlice({
                 state.currentQuestion.answers.push(action.payload)
             })
             .addCase(updateAnswer.fulfilled, (state, action) => {
-                console.log(action.payload)
-                console.log(state.currentQuestion.answers)
                 state.currentQuestion.answers = state.currentQuestion.answers.map((el) => {
                     if (el.id === action.payload.id) return action.payload
                     else return el

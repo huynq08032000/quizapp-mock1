@@ -3,7 +3,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
-import { updateQuestionAPI } from "../config/API"
+import { deleteQuestionAPI, updateQuestionAPI } from "../config/API"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -15,7 +15,9 @@ const initState = {
     currentPage: 1,
     order: 'ASC',
     sortField: 'id',
-    statusUpdateQuestion : false
+    statusUpdateQuestion : false,
+    statusDeleteQuestion : false,
+    isDeleteQuestion : false,
 }
 
 const questionsAdminSlice = createSlice({
@@ -33,6 +35,9 @@ const questionsAdminSlice = createSlice({
         },
         setSortField: (state, action) => {
             state.sortField = action.payload
+        },
+        setIsDeleteQuestion : (state, action) => {
+            state.isDeleteQuestion = action.payload
         }
 
     },
@@ -47,6 +52,7 @@ const questionsAdminSlice = createSlice({
                 state.totalPages = action.payload.totalPages
                 state.currentPage = action.payload.currentPage
                 state.status = false
+                state.isDeleteQuestion = false
             })
             .addCase(updateQuestion.pending, (state, action) => {
                 state.statusUpdateQuestion = true
@@ -57,6 +63,13 @@ const questionsAdminSlice = createSlice({
                     if (el.id === action.payload.id ) return action.payload 
                     return el
                 })
+            })
+            .addCase(deleteQuestion.pending, (state, action) => {
+                state.statusDeleteQuestion = true
+            })
+            .addCase(deleteQuestion.fulfilled, (state, action) => {
+                state.statusDeleteQuestion = false
+                state.isDeleteQuestion = true
             })
     }
 })
@@ -88,6 +101,16 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
         toast.success('Update failed', toastCss)
     }
 
+})
+
+export const deleteQuestion = createAsyncThunk('questions/deleteQuestion', async (idQuestion) => {
+    try {
+        const res = await axios.delete(deleteQuestionAPI + idQuestion,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
+        toast.success(res.data.message, toastCss)
+        return idQuestion
+    } catch (err) {
+        toast.error('Delete failed', toastCss)
+    }
 })
 export const { setListQuestion, setCurrentPage, setOrder, setSortField } = questionsAdminSlice.actions;
 export default questionsAdminSlice.reducer;
