@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { getQuestionById } from "../config/API"
+import { createAnswerApi, getQuestionById } from "../config/API"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
     currentQuestion: {},
     status: false,
+    statusAnswer : false,
 }
 
 const currentQuestionSlice = createSlice({
@@ -32,6 +33,13 @@ const currentQuestionSlice = createSlice({
                 state.currentQuestion = action.payload;
                 state.status = false
             })
+            .addCase(createAnswer.pending, (state, action) => {
+                state.statusAnswer = true
+            })
+            .addCase(createAnswer.fulfilled, (state, action) => {
+                state.statusAnswer = false
+                state.currentQuestion.answers.push(action.payload)
+            })
     }
 })
 export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (idQuestion) => {
@@ -40,6 +48,20 @@ export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (
             getQuestionById + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return res.data.data 
+    } catch (error) {
+        console.log(error)
+    }
+})
+export const createAnswer = createAsyncThunk('questions/createAnswer' , async (data) => {
+    try {
+        const res = await axios.post(
+            createAnswerApi, data , {headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }}
+        )
+        return {
+            id : res.data.data.id,
+            content : data.content,
+            is_correct : data.is_correct
+        }
     } catch (error) {
         console.log(error)
     }

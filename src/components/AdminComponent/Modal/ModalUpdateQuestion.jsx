@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
 import { Button, Modal, Input, Image } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsOpenUpdate } from '../../../redux/modalSilce';
 import { fetchQuestion, setThumbailCurrentQuestion, setTitleCurentQuestion } from '../../../redux/currentQuestionSlice';
@@ -14,6 +15,9 @@ import { uploadThumbnailAPI } from '../../../config/API';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN_KEY } from '../../../config/token';
 import { Typography } from "@mui/material";
+import LoadingComponent from '../../LoadingComponent/LoadingComponent';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import AddAnswerComponent from '../ChildComponent/AddAnswerComponent';
 
 const validationSchema = yup.object({
     title: yup
@@ -27,7 +31,6 @@ const ModalUpdateQuestion = ({ }) => {
     const idQuestion = useSelector(state => state.modal.idQuestion)
     const currentQuestion = useSelector(state => state.currentQuestion.currentQuestion)
     const status = useSelector(state => state.currentQuestion.status)
-    console.log(currentQuestion.answers)
     const handleOk = () => {
         // dispatch(setIsOpenUpdate(false))
         formik.handleSubmit()
@@ -77,7 +80,7 @@ const ModalUpdateQuestion = ({ }) => {
     return (
         <>
             <Modal title="Update Question Modal" open={isModalUpadte} onOk={handleOk} onCancel={handleCancel} confirmLoading={false}>
-                {status ? <>Loading</> : <>
+                {status ? <LoadingComponent /> : <>
                     <Input.TextArea
                         value={currentQuestion.title}
                         name='title'
@@ -100,7 +103,26 @@ const ModalUpdateQuestion = ({ }) => {
                         type="file"
                         onChange={handleUploadFile}
                     />
-                    <Typography style={{color : 'green'}}>Answers</Typography>
+                    <Typography style={{ color: 'green' }}>Answers</Typography>
+                    {currentQuestion.answers?.map(el => {
+                        return (
+                            <div key={el.id}>
+                                <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} />
+                                <FormControlLabel
+                                    label={el.content}
+                                    control={
+                                        <Checkbox
+                                            name='rememberMe'
+                                            color='primary'
+                                            checked={el.is_correct}
+                                        />
+                                    }
+
+                                />
+                            </div>
+                        )
+                    })}
+                    <AddAnswerComponent idQuestion = {currentQuestion.id} />
                 </>}
 
 

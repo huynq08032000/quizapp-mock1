@@ -105,7 +105,6 @@ const TableComponent = () => {
                 <Space size="middle">
                     <Button type="primary" shape="circle" icon={<EditOutlined />} size={'large'} style={{ backgroundColor: 'green' }}
                         onClick={() => {
-                            console.log(dataIndex.idQuestion)
                             dispatch(setIsOpenUpdate(true))
                             dispatch(setIdQuestion(dataIndex.idQuestion))
                         }} />
