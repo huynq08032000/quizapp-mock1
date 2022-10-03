@@ -5,7 +5,7 @@ import { Table, Space, Switch, Button, Modal, Input, Typography, Image } from 'a
 import 'antd/dist/antd.css';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { defaultThumbnail } from "../../../config/regex";
-import ModalUpdate from "../Modal/ModalUpdate";
+import ModalUpdate from "../Modal/ModalUpdateQuestion";
 import { setIdQuestion, setIsOpenUpdate } from "../../../redux/modalSilce";
 
 const TableComponent = () => {
@@ -19,7 +19,6 @@ const TableComponent = () => {
     const order = useSelector(state => state.questionsAdminSlice.order)
     const sortField = useSelector(state => state.questionsAdminSlice.sortField)
     const currentPage = useSelector(state => state.questionsAdminSlice.currentPage)
-    const [isOpenUpdate, setIsOpenUpdateModal] = useState(false)
     const [data, setData] = useState([])
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -140,7 +139,7 @@ const TableComponent = () => {
                 loading={loading}
                 onChange={handleTableChange}
             />
-            <ModalUpdate isOpenUpdate={isOpenUpdate}/>
+            <ModalUpdate/>
         </>
     )
 }

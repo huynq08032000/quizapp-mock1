@@ -6,13 +6,14 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
 import axios from "axios";
-import { uploadThumbnailAPI } from "../../../config/API";
+import { createQuestion, uploadThumbnailAPI } from "../../../config/API";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../../config/token";
 import { toast } from "react-toastify";
 import { toastCss } from "../../StyleComponent/StyleCompoent";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { LoadingButton } from "@mui/lab";
 const validationSchema = yup.object({
     title: yup
         .string("Enter title question")
@@ -22,9 +23,10 @@ const validationSchema = yup.object({
 const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
     const navigate = useNavigate()
     const [img, setImg] = useState('')
+    const [loading, setLoading] = useState(false)
     const formik = useFormik({
         initialValues: {
-            title : ''
+            title: ''
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -35,11 +37,26 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
         formik.handleChange(event);
     };
     const handleAdd = async (values) => {
-        console.log(values.title)
-        console.log(img)
-        // const data = await axios.post()
+        setLoading(true)
+        try {
+            const res = await axios.post(createQuestion, {
+                "title": values.title,
+                "thumbnail_link": img,
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`
+                }
+            })
+            toast.success(res.data.message, toastCss)
+            formik.resetForm()
+            setImg('')
+        } catch (error) {
+            toast.error(error.message, toastCss)
+        }
+        setLoading(false)
     }
     const handleUploadFile = (e) => {
+        setLoading(true)
         toast.info('Uploading', toastCss)
         let formData = new FormData()
         formData.append('thumbnail', e.target.files[0], e.target.files[0].name)
@@ -49,6 +66,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
             setImg(res.data.data)
             toast.success('Upload Success', toastCss)
         }).catch(err => toast.error(err.message, toastCss))
+        setLoading(false)
     }
     return (
         <>
@@ -78,7 +96,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
                             maxRows: 5,
                         }}
                     />
-                    {formik.touched.title && formik.errors.title && <Typography style={{color : 'red'}}>{formik.errors.title}</Typography>}
+                    {formik.touched.title && formik.errors.title && <Typography style={{ color: 'red' }}>{formik.errors.title}</Typography>}
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                         <Image
                             width={400}
@@ -88,12 +106,12 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
 
                     <Input
                         type="file"
-                        onChange={handleUploadFile}                    
+                        onChange={handleUploadFile}
                     />
 
                 </div>
                 <div className="form-submit" style={{ marginTop: '10px' }}>
-                    <Button variant="contained" fullWidth onClick={formik.handleSubmit}>Add</Button>
+                    <LoadingButton variant="contained" fullWidth onClick={formik.handleSubmit} loading={loading}>Add</LoadingButton>
                 </div>
             </div>
         </>

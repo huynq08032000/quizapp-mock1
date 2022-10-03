@@ -19,6 +19,7 @@ const ManagementComponent = ({ component }) => {
             onCollapse={(value) => setCollapsed(value)}
             >
                 <MenuItem title='Question' href='/admin' />
+                <MenuItem title='User' href='/admin/user' />
             </Sider>
             <Layout className="site-layout" style={{ paddingTop: "10px" }}>
                 <Content

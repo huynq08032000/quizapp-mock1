@@ -44,7 +44,8 @@ const SearchQuestionsComponent = () => {
                     <Select.Option value="id">ID</Select.Option>
                     <Select.Option value="title">Title</Select.Option>
                     <Select.Option value="thumbnail">Thumbnail</Select.Option>
-                    <Select.Option value="createAt">Create At</Select.Option>
+                    <Select.Option value="createdAt">Created At</Select.Option>
+                    <Select.Option value="updatedAt">Updated At</Select.Option>
                 </Select>
                 <Input placeholder="Title" />
                 <Radio.Group onChange={handleOrder} value={order}>

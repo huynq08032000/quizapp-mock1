@@ -15,6 +15,12 @@ const currentQuestionSlice = createSlice({
     reducers: {
         setCurrentQuestion: (state, action) => {
             state.currentQuestion = action.payload
+        }, 
+        setTitleCurentQuestion : (state, action) => {
+            state.currentQuestion.title = action.payload
+        }, 
+        setThumbailCurrentQuestion : (state, action) => {
+            state.currentQuestion.thumbnail_link = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -33,11 +39,10 @@ export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (
         const res = await axios.get(
             getQuestionById + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
-        console.log(res.data.data)
         return res.data.data 
     } catch (error) {
         console.log(error)
     }
 })
-export const { setCurrentQuestion } = currentQuestionSlice.actions;
+export const { setCurrentQuestion , setTitleCurentQuestion, setThumbailCurrentQuestion} = currentQuestionSlice.actions;
 export default currentQuestionSlice.reducer;
