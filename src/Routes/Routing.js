@@ -1,5 +1,6 @@
 import React, { Suspense } from "react"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoadingComponent from "../components/LoadingComponent/LoadingComponent";
 import PlayComponent from "../components/PlayComponent/MainComponent/PlayComponent";
 import ROUTES from "../config/ROUTES";
 import ProtectedRoute from "./ProtectedRoute";
@@ -7,7 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 const Routing = () => {
     return (
         <Router>
-            <Suspense fallback={<p> Loading...</p>}>
+            <Suspense fallback={<LoadingComponent/>}>
                 <Routes>
                     {ROUTES.map((route, index) => {
                         if (!route.role) {
