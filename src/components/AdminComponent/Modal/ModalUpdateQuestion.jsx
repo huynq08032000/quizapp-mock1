@@ -4,7 +4,7 @@ import { Button, Modal, Input, Image } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsOpenUpdate } from '../../../redux/modalSilce';
-import { fetchQuestion, setThumbailCurrentQuestion, setTitleCurentQuestion } from '../../../redux/currentQuestionSlice';
+import { deleteAnswer, fetchQuestion, setThumbailCurrentQuestion, setTitleCurentQuestion, updateAnswer } from '../../../redux/currentQuestionSlice';
 import { toast } from "react-toastify";
 import { toastCss } from "../../StyleComponent/StyleCompoent";
 import { useFormik } from "formik";
@@ -31,6 +31,7 @@ const ModalUpdateQuestion = ({ }) => {
     const idQuestion = useSelector(state => state.modal.idQuestion)
     const currentQuestion = useSelector(state => state.currentQuestion.currentQuestion)
     const status = useSelector(state => state.currentQuestion.status)
+    const statusDeleteAnswer = useSelector(state => state.currentQuestion.statusDeleteAnswer)
     const handleOk = () => {
         // dispatch(setIsOpenUpdate(false))
         formik.handleSubmit()
@@ -68,6 +69,12 @@ const ModalUpdateQuestion = ({ }) => {
         }).catch(err => toast.error(err.message, toastCss))
 
     }
+    
+    const handleCheck = (id, check) => {
+        console.log(id, check)
+        const data = {id : id, is_correct : !check}
+        dispatch(updateAnswer(data))
+    }
 
     useEffect(() => {
         if (idQuestion > 0 && isModalUpadte) {
@@ -77,6 +84,9 @@ const ModalUpdateQuestion = ({ }) => {
         }
     }, [isModalUpadte])
 
+    const handleDelete = (idAnswer) => {
+        dispatch(deleteAnswer(idAnswer))
+    }
     return (
         <>
             <Modal title="Update Question Modal" open={isModalUpadte} onOk={handleOk} onCancel={handleCancel} confirmLoading={false}>
@@ -107,7 +117,7 @@ const ModalUpdateQuestion = ({ }) => {
                     {currentQuestion.answers?.map(el => {
                         return (
                             <div key={el.id}>
-                                <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} />
+                                <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} onClick = {() => handleDelete(el.id)} loading={statusDeleteAnswer}/>                 
                                 <FormControlLabel
                                     label={el.content}
                                     control={
@@ -115,6 +125,7 @@ const ModalUpdateQuestion = ({ }) => {
                                             name='rememberMe'
                                             color='primary'
                                             checked={el.is_correct}
+                                            onClick={() => handleCheck(el.id, el.is_correct)}
                                         />
                                     }
 

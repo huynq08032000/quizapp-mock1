@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { createAnswerApi, getQuestionById } from "../config/API"
+import { createAnswerApi, deleteAnswerApi, getQuestionById, updateAnswerApi } from "../config/API"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
     currentQuestion: {},
     status: false,
-    statusAnswer : false,
+    statusAnswer: false,
+    statusDeleteAnswer: false,
 }
 
 const currentQuestionSlice = createSlice({
@@ -16,11 +17,11 @@ const currentQuestionSlice = createSlice({
     reducers: {
         setCurrentQuestion: (state, action) => {
             state.currentQuestion = action.payload
-        }, 
-        setTitleCurentQuestion : (state, action) => {
+        },
+        setTitleCurentQuestion: (state, action) => {
             state.currentQuestion.title = action.payload
-        }, 
-        setThumbailCurrentQuestion : (state, action) => {
+        },
+        setThumbailCurrentQuestion: (state, action) => {
             state.currentQuestion.thumbnail_link = action.payload
         }
     },
@@ -40,6 +41,21 @@ const currentQuestionSlice = createSlice({
                 state.statusAnswer = false
                 state.currentQuestion.answers.push(action.payload)
             })
+            .addCase(updateAnswer.fulfilled, (state, action) => {
+                console.log(action.payload)
+                console.log(state.currentQuestion.answers)
+                state.currentQuestion.answers = state.currentQuestion.answers.map((el) => {
+                    if (el.id === action.payload.id) return action.payload
+                    else return el
+                })
+            })
+            .addCase(deleteAnswer.pending, (state, action) => {
+                state.statusDeleteAnswer = true
+            })
+            .addCase(deleteAnswer.fulfilled, (state, action) => {
+                state.statusDeleteAnswer = false
+                state.currentQuestion.answers = state.currentQuestion.answers.filter(el => el.id !== action.payload)
+            })
     }
 })
 export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (idQuestion) => {
@@ -47,24 +63,45 @@ export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (
         const res = await axios.get(
             getQuestionById + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
-        return res.data.data 
+        return res.data.data
     } catch (error) {
         console.log(error)
     }
 })
-export const createAnswer = createAsyncThunk('questions/createAnswer' , async (data) => {
+export const createAnswer = createAsyncThunk('questions/createAnswer', async (data) => {
     try {
         const res = await axios.post(
-            createAnswerApi, data , {headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }}
+            createAnswerApi, data, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return {
-            id : res.data.data.id,
-            content : data.content,
-            is_correct : data.is_correct
+            id: res.data.data.id,
+            content: data.content,
+            is_correct: data.is_correct
         }
     } catch (error) {
         console.log(error)
     }
 })
-export const { setCurrentQuestion , setTitleCurentQuestion, setThumbailCurrentQuestion} = currentQuestionSlice.actions;
+
+export const updateAnswer = createAsyncThunk('questions/updateAnswer', async (data) => {
+    try {
+        const tempData = { is_correct: data.is_correct }
+        const res = await axios.patch(
+            updateAnswerApi + data.id, tempData, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
+        )
+        return res.data.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteAnswer = createAsyncThunk('questions/deleteAnswer', async (id) => {
+    try {
+        const res = await axios.delete(deleteAnswerApi + id, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
+        return id
+    } catch (err) {
+        console.log(err)
+    }
+})
+export const { setCurrentQuestion, setTitleCurentQuestion, setThumbailCurrentQuestion } = currentQuestionSlice.actions;
 export default currentQuestionSlice.reducer;
