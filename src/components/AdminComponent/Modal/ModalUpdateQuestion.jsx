@@ -18,6 +18,7 @@ import { Typography } from "@mui/material";
 import LoadingComponent from '../../LoadingComponent/LoadingComponent';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import AddAnswerComponent from '../ChildComponent/AddAnswerComponent';
+import { updateQuestion } from '../../../redux/adminQuestionSlice';
 
 const validationSchema = yup.object({
     title: yup
@@ -32,6 +33,7 @@ const ModalUpdateQuestion = ({ }) => {
     const currentQuestion = useSelector(state => state.currentQuestion.currentQuestion)
     const status = useSelector(state => state.currentQuestion.status)
     const statusDeleteAnswer = useSelector(state => state.currentQuestion.statusDeleteAnswer)
+    const statusUpdateQuestion = useSelector(state => state.questionsAdminSlice.statusUpdateQuestion)
     const handleOk = () => {
         // dispatch(setIsOpenUpdate(false))
         formik.handleSubmit()
@@ -47,8 +49,7 @@ const ModalUpdateQuestion = ({ }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values)
-            console.log(currentQuestion)
+            dispatch(updateQuestion(currentQuestion))
         }
     });
     const myHandleChange = (event) => {
@@ -69,7 +70,7 @@ const ModalUpdateQuestion = ({ }) => {
         }).catch(err => toast.error(err.message, toastCss))
 
     }
-    
+
     const handleCheck = (id, check) => {
         console.log(id, check)
         const data = {id : id, is_correct : !check}
@@ -89,7 +90,7 @@ const ModalUpdateQuestion = ({ }) => {
     }
     return (
         <>
-            <Modal title="Update Question Modal" open={isModalUpadte} onOk={handleOk} onCancel={handleCancel} confirmLoading={false}>
+            <Modal title="Update Question Modal" open={isModalUpadte} onOk={handleOk} onCancel={handleCancel} confirmLoading={statusUpdateQuestion}>
                 {status ? <LoadingComponent /> : <>
                     <Input.TextArea
                         value={currentQuestion.title}

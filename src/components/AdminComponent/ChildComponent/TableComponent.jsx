@@ -108,11 +108,11 @@ const TableComponent = () => {
                             dispatch(setIsOpenUpdate(true))
                             dispatch(setIdQuestion(dataIndex.idQuestion))
                         }} />
-                    <Button type="primary" shape="circle" icon={<EyeOutlined />} size={'large'}
+                    {/* <Button type="primary" shape="circle" icon={<EyeOutlined />} size={'large'}
                         onClick={() => {
                             console.log(dataIndex.idQuestion)
                         }}
-                    />
+                    /> */}
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} size={'large'} danger
                         onClick={() => {
                             console.log(dataIndex.idQuestion)

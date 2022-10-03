@@ -12,9 +12,11 @@ export const userWithTokenApi = `${urlApi}/v1/user/my-profile`
 export const getQuestionById = `${urlApi}/v1/questions/`
 export const uploadThumbnailAPI = `${urlApi}/v1/questions/upload-thumbnail`
 export const createQuestion = `${urlApi}/v1/questions`
+export const updateQuestionAPI = `${urlApi}/v1/questions/`
 export const createAnswerApi = `${urlApi}/v1/answers`
 export const updateAnswerApi = `${urlApi}/v1/answers/`
 export const deleteAnswerApi = `${urlApi}/v1/answers/`
+
 export const checkCode = (code) => {
     const rs = sucessCode.find(el => el === code)
     return rs ? true : false
