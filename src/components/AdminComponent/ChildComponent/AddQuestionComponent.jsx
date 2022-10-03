@@ -80,7 +80,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
             >
                 <div className="header">
                     <div className="header-title" style={{ display: 'flex' }}>
-                        <Icon><ArrowBack onClick={() => { navigate('/admin') }} /></Icon>
+                        <Icon><ArrowBack onClick={() => { navigate('/admin/questions') }} /></Icon>
                         <Typography variant="h2" style={{ fontSize: '30px', margin: '0 10px' }}>
                             Create Question
                         </Typography>

@@ -18,7 +18,7 @@ import { numInArray } from "../../ultis/ultis";
 const pages = [
     {
         title: 'Admin',
-        href: '/admin'
+        href: '/admin/questions'
     },
     {
         title: 'Go to play',

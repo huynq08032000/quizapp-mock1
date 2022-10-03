@@ -6,6 +6,7 @@ const ForgotPasswordComponent = lazy(()=>import('../components/ForgotPassword/Fo
 const PlayComponent = lazy(()=>import('../components/PlayComponent/MainComponent/PlayComponent'))
 const AdminComponent = lazy(()=>import('../components/AdminComponent/MainComponent/AdminComponent'))
 const AdminAddQuestionComponent = lazy(()=>import('../components/AdminComponent/MainComponent/AdminAddQuestionComponent'))
+const UserAdminComponent = lazy(() => import('../components/AdminComponent/MainComponent/UserAdminComponent'))
 
 const ROUTES = [
     {
@@ -26,7 +27,7 @@ const ROUTES = [
         role : ['user','admin']
     },
     {
-        path : 'admin',
+        path : 'admin/questions',
         component : <AdminComponent/>,
         role : ['admin']
     },
@@ -35,6 +36,11 @@ const ROUTES = [
         component : <AdminAddQuestionComponent/>,
         role : ['admin']
     },
+    {
+        path : 'admin/users',
+        component : <UserAdminComponent/>,
+        role : ['admin']
+    }
 ]
 export default ROUTES;
 
