@@ -11,6 +11,7 @@ const ProtectedRoute = ({ children, role }) => {
     const funCheck = (arr1, arr2) => {
         if (arr1) {
             const rs = arr1?.map((el) => {
+                if (typeof(arr2) === 'string') return numInArray(el,[arr2])
                 return numInArray(el, [...arr2])
             })
             return numInArray(true, rs)
