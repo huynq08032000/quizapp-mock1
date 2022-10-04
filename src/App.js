@@ -12,7 +12,7 @@ import Routing from './Routes/Routing';
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    axiosInstance.get('/v1/user/my-profile', { headers: { 'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
+    axiosInstance.get('/v1/user/my-profile')
       .then(res => dispatch(setUser(res.data.data)))
       .catch(err => {
         console.log(err)
