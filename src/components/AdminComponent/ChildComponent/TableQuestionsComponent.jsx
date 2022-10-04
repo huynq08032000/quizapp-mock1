@@ -21,6 +21,7 @@ const TableComponent = () => {
     const sortField = useSelector(state => state.questionsAdminSlice.sortField)
     const currentPage = useSelector(state => state.questionsAdminSlice.currentPage)
     const isDeleteQuestion = useSelector(state => state.questionsAdminSlice.isDeleteQuestion)
+    const title = useSelector(state => state.questionsAdminSlice.title)
     const [data, setData] = useState([])
     const [tableParams, setTableParams] = useState({
         pagination: {
@@ -42,6 +43,9 @@ const TableComponent = () => {
                 sortField: sortField,
                 page: currentPage,
                 size: pageSize,
+            }
+            if (title !== '') {
+                paramSearch['keyWord'] = title
             }
             dispatch(fetchAllQuestions(paramSearch))
         }

@@ -15,9 +15,10 @@ const initState = {
     currentPage: 1,
     order: 'ASC',
     sortField: 'id',
-    statusUpdateQuestion : false,
-    statusDeleteQuestion : false,
-    isDeleteQuestion : false,
+    title: '',
+    statusUpdateQuestion: false,
+    statusDeleteQuestion: false,
+    isDeleteQuestion: false,
 }
 
 const questionsAdminSlice = createSlice({
@@ -36,8 +37,11 @@ const questionsAdminSlice = createSlice({
         setSortField: (state, action) => {
             state.sortField = action.payload
         },
-        setIsDeleteQuestion : (state, action) => {
+        setIsDeleteQuestion: (state, action) => {
             state.isDeleteQuestion = action.payload
+        },
+        setTitleSearch: (state, action) => {
+            state.title = action.payload
         }
 
     },
@@ -60,7 +64,7 @@ const questionsAdminSlice = createSlice({
             .addCase(updateQuestion.fulfilled, (state, action) => {
                 state.statusUpdateQuestion = false
                 state.questions = state.questions.map(el => {
-                    if (el.id === action.payload.id ) return action.payload 
+                    if (el.id === action.payload.id) return action.payload
                     return el
                 })
             })
@@ -89,11 +93,11 @@ export const fetchAllQuestions = createAsyncThunk('questions/fetchAllQuestions',
 export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async (values) => {
     try {
         const data = {
-            title : values.title,
-            thumbnail_link : values.thumbnail_link
+            title: values.title,
+            thumbnail_link: values.thumbnail_link
         }
         const res = await axios.patch(
-            updateQuestionAPI + values.id, data , { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
+            updateQuestionAPI + values.id, data, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         toast.success(res.data.message, toastCss)
         return res.data.data
@@ -105,12 +109,12 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
 
 export const deleteQuestion = createAsyncThunk('questions/deleteQuestion', async (idQuestion) => {
     try {
-        const res = await axios.delete(deleteQuestionAPI + idQuestion,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
+        const res = await axios.delete(deleteQuestionAPI + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
         toast.success(res.data.message, toastCss)
         return idQuestion
     } catch (err) {
         toast.error('Delete failed', toastCss)
     }
 })
-export const { setListQuestion, setCurrentPage, setOrder, setSortField } = questionsAdminSlice.actions;
+export const { setListQuestion, setCurrentPage, setOrder, setSortField, setTitleSearch } = questionsAdminSlice.actions;
 export default questionsAdminSlice.reducer;
