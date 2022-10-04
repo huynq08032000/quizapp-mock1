@@ -5,13 +5,14 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { userWithTokenApi } from './config/API';
+import axiosInstance from './config/customAxios';
 import { ACCESS_TOKEN_KEY } from './config/token';
 import { setUser } from './redux/userSlice';
 import Routing from './Routes/Routing';
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    axios.get(userWithTokenApi, { headers: { 'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
+    axiosInstance.get('/v1/user/my-profile', { headers: { 'Authorization': `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
       .then(res => dispatch(setUser(res.data.data)))
       .catch(err => {
         console.log(err)

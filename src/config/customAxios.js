@@ -1,7 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { refreshTokenApi, urlApi } from "./API";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./token";
+
 const axiosInstance = axios.create({
     baseURL: urlApi,
     headers: {
@@ -10,45 +12,32 @@ const axiosInstance = axios.create({
     }
 });
 
-axiosInstance.interceptors.response.use(
-    response => response,
-    error => {
-        const originalRequest = error.config;
-
-        // Prevent infinite loops
-        if (error.response.data.statusCode === 401 && originalRequest.url === '/v1/authentication/refresh-token') {
-            window.location.href = '/login';
-            return Promise.reject(error);
+axiosInstance.interceptors.request.use(async (req) => {
+    const accessToken = Cookies.get(ACCESS_TOKEN_KEY)
+    const refresh_token = Cookies.get(REFRESH_TOKEN_KEY)
+    if (accessToken) return req
+    if (refresh_token) {
+        try {
+            const res = await axios.post(refreshTokenApi, {
+                "refresh_token": refresh_token
+            })
+            console.log(res.data.data)
+            Cookies.set(ACCESS_TOKEN_KEY, res.data.data.newTokens.access_token, { expires: 1 / 24 })
+            Cookies.set(REFRESH_TOKEN_KEY, res.data.data.newTokens.refresh_token, { expires: 7 })
+            req.headers.Authorization = `Bearer ${res.data.data.newTokens.access_token}`
+            return req
+        } catch (error) {
+            console.log(error)
         }
-
-        if (error.response.data.statusCode === 401 &&
-            error.response.data.message === 'Unauthorized') {
-            const refreshToken = Cookies.get(REFRESH_TOKEN_KEY)
-            if (refreshToken) {
-                return axiosInstance
-                    .post('/v1/authentication/refresh-token', { refresh_token: refreshToken })
-                    .then((response) => {
-                        const {access_token, refresh_token} = response.data.data.newTokens
-                        Cookies.set(ACCESS_TOKEN_KEY, access_token, {expires : 1/24})
-                        Cookies.set(REFRESH_TOKEN_KEY, refresh_token)
-                        error.config.headers['Authorization'] = 'Bearer ' + response.data.access;
-                        return axiosInstance(originalRequest);
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        Cookies.remove()
-                        window.location.href = '/login'
-                    });
-            } else {
-                console.log("Refresh token not available.")
-                // logout
-                window.location.href = '/login'
-            }
-        }
-
-
-        // specific error handling done elsewhere
-        return Promise.reject(error);
+    } else {
+        console.log('K co refresh')
     }
+    return req
+}
+)
+axiosInstance.interceptors.response.use((res) => {
+    console.log(res)
+    return res
+}
 );
 export default axiosInstance;
