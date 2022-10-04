@@ -17,6 +17,7 @@ export const deleteQuestionAPI = `${urlApi}/v1/questions/`
 export const createAnswerApi = `${urlApi}/v1/answers`
 export const updateAnswerApi = `${urlApi}/v1/answers/`
 export const deleteAnswerApi = `${urlApi}/v1/answers/`
+export const createNewUserApi = `${urlApi}/v1/user`
 
 export const checkCode = (code) => {
     const rs = sucessCode.find(el => el === code)
