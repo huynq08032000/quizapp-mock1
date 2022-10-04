@@ -3,7 +3,7 @@ import HeaderComponent from "../../Header/HeaderComponent";
 import AddUserComponent from "../ChildComponent/AddUserComponent";
 import ManagementComponent from "../ChildComponent/ManagementComponent";
 
-const AdminAddUserComponent = ({ }) => {
+const AdminAddUserComponent = () => {
 
     return (
         <>

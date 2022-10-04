@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import adminQuestionSlice from "./adminQuestionSlice";
 import currentQuestionSlice from "./currentQuestionSlice";
+import currentUserSlice from "./currentUserSlice";
 import modalSilce from "./modalSilce";
 import questionsSlice from "./questionsSlice";
 import questionsSubmitSilice from "./questionsSubmitSlice";
@@ -15,7 +16,8 @@ const store = configureStore({
         questionsAdminSlice : adminQuestionSlice,
         userAdminSlice : userAdminSlice,
         modal : modalSilce,
-        currentQuestion : currentQuestionSlice
+        currentQuestion : currentQuestionSlice,
+        currentUser : currentUserSlice,
     }
 })
 

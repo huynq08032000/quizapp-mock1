@@ -20,7 +20,7 @@ const SearchUsersComponent = () => {
     const handleSortField = (value) => {
         dispatch(setSortFieldUsers(value))
     };
-    const handleRol1 = (value) => {
+    const handleRole1 = (value) => {
         dispatch(setRole1(value))
     };
 
@@ -28,7 +28,7 @@ const SearchUsersComponent = () => {
         const paramSearch = {
             order: order,
             sortField: sortField,
-            page: currentPage,
+            page: 1,
             size: pageSize,
         }
         if (role1 !== '') {
@@ -58,7 +58,7 @@ const SearchUsersComponent = () => {
                     style={{
                         width: 120,
                     }}
-                    onChange={handleRol1}
+                    onChange={handleRole1}
                 >
                     <Select.Option value="">All</Select.Option>
                     <Select.Option value="user">User</Select.Option>

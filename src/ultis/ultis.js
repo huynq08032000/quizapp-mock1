@@ -10,3 +10,8 @@ export const setColor = (num, arr, color, color2) => {
     if (numInArray(num, arr)) return color
     return color2
 }
+
+export const colorTag = {
+    user : '#87d068',
+    admin : '#108ee9'
+}

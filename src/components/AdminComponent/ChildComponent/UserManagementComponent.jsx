@@ -4,6 +4,7 @@ import '../css/index.css'
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import SearchUsersComponent from "./SearchUsersComponent";
+import TableUsersComponent from "./TableUsersComponent";
 
 const UserManagementComponent = () => {
     const navigate = useNavigate()
@@ -34,6 +35,7 @@ const UserManagementComponent = () => {
                 </div>
                 <div className="main-component" style={{ paddingTop: '50px' }}>
                     <SearchUsersComponent/>
+                    <TableUsersComponent/>
                 </div>
             </div>
         </>

@@ -3,7 +3,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
-import { deleteQuestionAPI, updateQuestionAPI } from "../config/API"
+import { deleteQuestionAPI, deleteUserApi, updateQuestionAPI } from "../config/API"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -18,6 +18,8 @@ const initState = {
     role1 : '',
     statusUpdateQuestion : false,
     statusDeleteQuestion : false,
+    statusDeleteUser : false,
+    isDeleteUser : false,
     isDeleteQuestion : false,
 }
 
@@ -56,6 +58,7 @@ const userAdminSlice = createSlice({
                 state.totalPages = action.payload.totalPages
                 state.currentPage = action.payload.currentPage
                 state.status = false
+                state.isDeleteUser = false
             })
             .addCase(updateQuestion.pending, (state, action) => {
                 state.statusUpdateQuestion = true
@@ -67,12 +70,12 @@ const userAdminSlice = createSlice({
                     return el
                 })
             })
-            .addCase(deleteQuestion.pending, (state, action) => {
-                state.statusDeleteQuestion = true
+            .addCase(deleteUser.pending, (state, action) => {
+                state.statusDeleteUser = true
             })
-            .addCase(deleteQuestion.fulfilled, (state, action) => {
-                state.statusDeleteQuestion = false
-                state.isDeleteQuestion = true
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.statusDeleteUser = false
+                state.isDeleteUser = true
             })
     }
 })
@@ -106,11 +109,11 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
 
 })
 
-export const deleteQuestion = createAsyncThunk('questions/deleteQuestion', async (idQuestion) => {
+export const deleteUser = createAsyncThunk('users/deleteUser', async (idUser) => {
     try {
-        const res = await axios.delete(deleteQuestionAPI + idQuestion,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
+        const res = await axios.delete(deleteUserApi + idUser,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
         toast.success(res.data.message, toastCss)
-        return idQuestion
+        return idUser
     } catch (err) {
         toast.error('Delete failed', toastCss)
     }
