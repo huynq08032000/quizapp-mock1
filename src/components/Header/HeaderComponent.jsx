@@ -14,6 +14,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { numInArray } from "../../ultis/ultis";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { logoutApi } from "../../config/API";
+import { REFRESH_TOKEN_KEY } from "../../config/token";
+import { toast } from "react-toastify";
+import { toastCss } from "../StyleComponent/StyleCompoent";
 
 const pages = [
     {
@@ -25,7 +31,7 @@ const pages = [
         href: '/play'
     }
 ];
-const settings = ['Profile', 'Account', 'Logout'];
+// const settings = ['Profile', 'Account', 'Logout'];
 
 
 const HeaderComponent = () => {
@@ -52,6 +58,29 @@ const HeaderComponent = () => {
     const handleNavigate = (url) => {
         navigate(url)
     }
+    const settings = [
+        {
+            label: 'Profile',
+            onClick: () => {
+                console.log('Profile')
+            }
+        },
+        {
+            label: 'Logout',
+            onClick: async () => {
+                try {
+                    const res = await axios.post(logoutApi, {
+                        "refresh_token": Cookies.get(REFRESH_TOKEN_KEY)
+                    })
+                    toast.success(res.data.message, toastCss)
+                    Cookies.remove()
+                    localStorage.clear()
+                    navigate('/login')
+                } catch (error) {
+                }
+            }
+        }
+    ]
     return (
         <>
             <AppBar position="static">
@@ -131,13 +160,13 @@ const HeaderComponent = () => {
                             {numInArray('admin', userRoles) && pages.map((page) => (
                                 <Button
                                     key={page.title}
-                                    onClick={()=>{
+                                    onClick={() => {
                                         handleCloseNavMenu()
                                         handleNavigate(page.href)
                                     }}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page.title} 
+                                    {page.title}
                                 </Button>
                             ))}
                         </Box>
@@ -164,9 +193,9 @@ const HeaderComponent = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                {settings.map((setting, index) => (
+                                    <MenuItem key={index} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" onClick={setting.onClick}>{setting.label}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>

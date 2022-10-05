@@ -5,6 +5,7 @@ export const failedCode = 400
 export const loginApi = `${urlApi}/v1/authentication/login`
 export const registerApi = `${urlApi}/v1/authentication/register`
 export const forgotApi = `${urlApi}/v1/authentication/forgot-password`
+export const logoutApi = `${urlApi}/v1/authentication/logout`
 export const questionsPlayAPI = `${urlApi}/v1/questions/play?total=`
 export const questionsSubmitAPI= `${urlApi}/v1/questions/submit`
 export const refreshTokenApi = `${urlApi}/v1/authentication/refresh-token`
