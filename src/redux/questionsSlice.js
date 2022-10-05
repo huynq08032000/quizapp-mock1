@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { questionsPlayAPI } from "../config/API"
+import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -49,7 +50,7 @@ const questionsSlice = createSlice({
 
 export const fetchQuestions = createAsyncThunk('questions/fetchQuestions', async (number) => {
     try {
-        const res = await axios.get(
+        const res = await axiosInstance.get(
             questionsPlayAPI + number, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return {

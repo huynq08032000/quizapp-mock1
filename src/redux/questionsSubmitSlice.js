@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { questionsSubmitAPI } from "../config/API"
+import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -45,7 +46,7 @@ const questionsSubmitSlice = createSlice({
 })
 export const submitQuestions = createAsyncThunk('questions/submitQuestions', async (questionsSubmit) => {
     try {
-        const res = await axios.post(
+        const res = await axiosInstance.post(
             questionsSubmitAPI,{listQuestionSubmitted : [...questionsSubmit]} ,{ 
                 headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` },
             }

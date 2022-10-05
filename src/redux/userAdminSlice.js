@@ -4,6 +4,7 @@ import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
 import { deleteQuestionAPI, deleteUserApi, updateQuestionAPI } from "../config/API"
+import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -60,16 +61,6 @@ const userAdminSlice = createSlice({
                 state.status = false
                 state.isDeleteUser = false
             })
-            .addCase(updateQuestion.pending, (state, action) => {
-                state.statusUpdateQuestion = true
-            })
-            .addCase(updateQuestion.fulfilled, (state, action) => {
-                state.statusUpdateQuestion = false
-                state.questions = state.questions.map(el => {
-                    if (el.id === action.payload.id ) return action.payload 
-                    return el
-                })
-            })
             .addCase(deleteUser.pending, (state, action) => {
                 state.statusDeleteUser = true
             })
@@ -82,7 +73,7 @@ const userAdminSlice = createSlice({
 
 export const fetchAllUsers = createAsyncThunk('users/fetchAllUsers', async (paramsSearch) => {
     try {
-        const res = await axios.get(`https://quangnh.xyz/v1/user`, {
+        const res = await axiosInstance.get(`https://quangnh.xyz/v1/user`, {
             params: paramsSearch,
             headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }
         })
@@ -92,13 +83,13 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAllUsers', async (para
     }
 })
 
-export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async (values) => {
+export const updateUser = createAsyncThunk('user/updateUser', async (values) => {
     try {
         const data = {
             title : values.title,
             thumbnail_link : values.thumbnail_link
         }
-        const res = await axios.patch(
+        const res = await axiosInstance.patch(
             updateQuestionAPI + values.id, data , { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         toast.success(res.data.message, toastCss)
@@ -111,7 +102,7 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
 
 export const deleteUser = createAsyncThunk('users/deleteUser', async (idUser) => {
     try {
-        const res = await axios.delete(deleteUserApi + idUser,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
+        const res = await axiosInstance.delete(deleteUserApi + idUser,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
         toast.success(res.data.message, toastCss)
         return idUser
     } catch (err) {

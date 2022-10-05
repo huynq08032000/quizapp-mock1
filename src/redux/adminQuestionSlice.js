@@ -4,6 +4,7 @@ import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
 import { deleteQuestionAPI, updateQuestionAPI } from "../config/API"
+import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -80,7 +81,7 @@ const questionsAdminSlice = createSlice({
 
 export const fetchAllQuestions = createAsyncThunk('questions/fetchAllQuestions', async (paramsSearch) => {
     try {
-        const res = await axios.get(`https://quangnh.xyz/v1/questions`, {
+        const res = await axiosInstance.get(`https://quangnh.xyz/v1/questions`, {
             params: paramsSearch,
             headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }
         })
@@ -96,7 +97,7 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
             title: values.title,
             thumbnail_link: values.thumbnail_link
         }
-        const res = await axios.patch(
+        const res = await axiosInstance.patch(
             updateQuestionAPI + values.id, data, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         toast.success(res.data.message, toastCss)

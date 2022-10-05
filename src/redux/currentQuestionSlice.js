@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { createAnswerApi, deleteAnswerApi, getQuestionById, updateAnswerApi } from "../config/API"
+import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
 const initState = {
@@ -58,7 +59,7 @@ const currentQuestionSlice = createSlice({
 })
 export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (idQuestion) => {
     try {
-        const res = await axios.get(
+        const res = await axiosInstance.get(
             getQuestionById + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return res.data.data
@@ -68,7 +69,7 @@ export const fetchQuestion = createAsyncThunk('questions/fetchQuestion', async (
 })
 export const createAnswer = createAsyncThunk('questions/createAnswer', async (data) => {
     try {
-        const res = await axios.post(
+        const res = await axiosInstance.post(
             createAnswerApi, data, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return {
@@ -84,7 +85,7 @@ export const createAnswer = createAsyncThunk('questions/createAnswer', async (da
 export const updateAnswer = createAsyncThunk('questions/updateAnswer', async (data) => {
     try {
         const tempData = { is_correct: data.is_correct }
-        const res = await axios.patch(
+        const res = await axiosInstance.patch(
             updateAnswerApi + data.id, tempData, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         return res.data.data
@@ -95,7 +96,7 @@ export const updateAnswer = createAsyncThunk('questions/updateAnswer', async (da
 
 export const deleteAnswer = createAsyncThunk('questions/deleteAnswer', async (id) => {
     try {
-        const res = await axios.delete(deleteAnswerApi + id, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
+        const res = await axiosInstance.delete(deleteAnswerApi + id, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
         return id
     } catch (err) {
         console.log(err)
