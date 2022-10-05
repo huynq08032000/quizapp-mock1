@@ -5,8 +5,9 @@ import 'antd/dist/antd.css';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { fetchAllUsers, setCurrentPageUsers } from "../../../redux/userAdminSlice";
 import { colorTag } from "../../../ultis/ultis";
-import { setIdUser, setIsOpenDeleteUser } from "../../../redux/modalSilce";
+import { setIdUser, setIsOpenDeleteUser, setIsOpenUpdateUser } from "../../../redux/modalSilce";
 import ModalDeleteUser from "../Modal/ModalDeleteUser";
+import ModalUpdateUser from "../Modal/ModalUpdateUser";
 
 const TableUsersComponent = () => {
     const { Text } = Typography;
@@ -21,6 +22,7 @@ const TableUsersComponent = () => {
     const role1 = useSelector(state => state.userAdminSlice.role1)
     const [data, setData] = useState([])
     const isDeleteUser = useSelector(state => state.userAdminSlice.isDeleteUser)
+    const isUpdateUser = useSelector(state => state.userAdminSlice.isUpdateUser)
     const [tableParams, setTableParams] = useState({
         pagination: {
             current: currentPage,
@@ -35,7 +37,7 @@ const TableUsersComponent = () => {
     };
 
     useEffect(() => {
-        if (currentPage > 0 || isDeleteUser) {
+        if (currentPage > 0 || isDeleteUser || isUpdateUser) {
             const paramSearch = {
                 order: order,
                 sortField: sortField,
@@ -47,7 +49,7 @@ const TableUsersComponent = () => {
             }
             dispatch(fetchAllUsers(paramSearch))
         }
-    }, [currentPage, isDeleteUser])
+    }, [currentPage, isDeleteUser, isUpdateUser])
 
     useEffect(() => {
         if (users) {
@@ -126,7 +128,8 @@ const TableUsersComponent = () => {
                 <Space size="middle">
                     <Button type="primary" shape="circle" icon={<EditOutlined />} size={'large'} style={{ backgroundColor: 'green' }}
                         onClick={() => {
-                            console.log(dataIndex.idUser)
+                            dispatch(setIsOpenUpdateUser(true))
+                            dispatch(setIdUser(dataIndex.idUser))
                         }} />
                     {/* <Button type="primary" shape="circle" icon={<EyeOutlined />} size={'large'}
                         onClick={() => {
@@ -160,6 +163,7 @@ const TableUsersComponent = () => {
                 onChange={handleTableChange}
             />
             <ModalDeleteUser />
+            <ModalUpdateUser />
         </>
     )
 }

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetQuestions } from "../../../redux/questionsSlice";
 import { submitQuestions } from "../../../redux/questionsSubmitSlice";
 import '../css/style.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toastCss } from "../../StyleComponent/StyleCompoent";
 

@@ -15,3 +15,14 @@ export const colorTag = {
     user : '#87d068',
     admin : '#108ee9'
 }
+
+export const optionsRole = [
+    {
+        label: 'User',
+        value: 'user',
+    },
+    {
+        label: 'Admin',
+        value: 'admin',
+    },
+];

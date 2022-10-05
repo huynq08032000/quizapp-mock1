@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
-import { deleteUserApi, updateQuestionAPI } from "../config/API"
+import { deleteUserApi, updateQuestionAPI, updateUserApi } from "../config/API"
 import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
@@ -15,12 +15,14 @@ const initState = {
     currentPage: 1,
     order: 'ASC',
     sortField: 'id',
-    role1 : '',
-    statusUpdateQuestion : false,
-    statusDeleteQuestion : false,
-    statusDeleteUser : false,
-    isDeleteUser : false,
-    isDeleteQuestion : false,
+    role1: '',
+    statusUpdateQuestion: false,
+    statusDeleteQuestion: false,
+    statusDeleteUser: false,
+    statusUpdateUser: false,
+    isDeleteUser: false,
+    isDeleteQuestion: false,
+    isUpdateUser: false,
 }
 
 const userAdminSlice = createSlice({
@@ -39,10 +41,10 @@ const userAdminSlice = createSlice({
         setSortFieldUsers: (state, action) => {
             state.sortField = action.payload
         },
-        setIsDeleteUser : (state, action) => {
+        setIsDeleteUser: (state, action) => {
             state.isDeleteQuestion = action.payload
         },
-        setRole1 : (state, action) => {
+        setRole1: (state, action) => {
             state.role1 = action.payload
         }
 
@@ -59,6 +61,7 @@ const userAdminSlice = createSlice({
                 state.currentPage = action.payload.currentPage
                 state.status = false
                 state.isDeleteUser = false
+                state.isUpdateUser = false
             })
             .addCase(deleteUser.pending, (state, action) => {
                 state.statusDeleteUser = true
@@ -66,6 +69,13 @@ const userAdminSlice = createSlice({
             .addCase(deleteUser.fulfilled, (state, action) => {
                 state.statusDeleteUser = false
                 state.isDeleteUser = true
+            })
+            .addCase(updateUser.pending, (state,action) => {
+                state.statusUpdateUser = true
+            })
+            .addCase(updateUser.fulfilled, (state,action) => {
+                state.statusUpdateUser = false
+                state.isUpdateUser = true
             })
     }
 })
@@ -82,31 +92,31 @@ export const fetchAllUsers = createAsyncThunk('users/fetchAllUsers', async (para
     }
 })
 
-export const updateUser = createAsyncThunk('user/updateUser', async (values) => {
+export const updateUser = createAsyncThunk('user/updateUser', async (data) => {
     try {
-        const data = {
-            title : values.title,
-            thumbnail_link : values.thumbnail_link
+        const tempData = {
+            email: data.email,
+            name: data.name,
+            roles: data.roles
         }
         const res = await axiosInstance.patch(
-            updateQuestionAPI + values.id, data , { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
+            updateUserApi + data.id, tempData, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )
         toast.success(res.data.message, toastCss)
         return res.data.data
     } catch (error) {
-        toast.success('Update failed', toastCss)
+        toast.error('Update failed', toastCss)
     }
-
 })
 
 export const deleteUser = createAsyncThunk('users/deleteUser', async (idUser) => {
     try {
-        const res = await axiosInstance.delete(deleteUserApi + idUser,{ headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` }})
+        const res = await axiosInstance.delete(deleteUserApi + idUser, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
         toast.success(res.data.message, toastCss)
         return idUser
     } catch (err) {
         toast.error('Delete failed', toastCss)
     }
 })
-export const {setListUsers, setCurrentPageUsers,setOrderUsers,setSortFieldUsers,setIsDeleteUser, setRole1} = userAdminSlice.actions;
+export const { setListUsers, setCurrentPageUsers, setOrderUsers, setSortFieldUsers, setIsDeleteUser, setRole1 } = userAdminSlice.actions;
 export default userAdminSlice.reducer;

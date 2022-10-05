@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { toastCss } from "../../StyleComponent/StyleCompoent";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { LoadingButton } from "@mui/lab";
 import axios from 'axios';
 import { uploadThumbnailAPI } from '../../../config/API';
 import Cookies from 'js-cookie';
@@ -19,6 +18,7 @@ import LoadingComponent from '../../LoadingComponent/LoadingComponent';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import AddAnswerComponent from '../ChildComponent/AddAnswerComponent';
 import { updateQuestion } from '../../../redux/adminQuestionSlice';
+import axiosInstance from '../../../config/customAxios';
 
 const validationSchema = yup.object({
     title: yup
@@ -26,7 +26,7 @@ const validationSchema = yup.object({
         .required("Title is required"),
 });
 
-const ModalUpdateQuestion = ({ }) => {
+const ModalUpdateQuestion = () => {
     const dispatch = useDispatch()
     const isModalUpadte = useSelector(state => state.modal.isOpenUpdate)
     const idQuestion = useSelector(state => state.modal.idQuestion)
@@ -46,7 +46,7 @@ const ModalUpdateQuestion = ({ }) => {
         initialValues: {
             title: currentQuestion.title
         },
-        validationSchema: validationSchema,
+        validationSchema: validationSchema, 
         onSubmit: (values) => {
             dispatch(updateQuestion(currentQuestion))
         }
@@ -61,7 +61,7 @@ const ModalUpdateQuestion = ({ }) => {
         toast.info('Uploading', toastCss)
         let formData = new FormData()
         formData.append('thumbnail', e.target.files[0], e.target.files[0].name)
-        axios.post(uploadThumbnailAPI, formData, {
+        axiosInstance.post(uploadThumbnailAPI, formData, {
             headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`, "Content-Type": "multipart/form-data", }
         }).then(res => {
             dispatch(setThumbailCurrentQuestion(res.data.data))

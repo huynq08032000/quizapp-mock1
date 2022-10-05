@@ -6,6 +6,7 @@ const initState = {
     isOpenDelete : false,
     idQuestion : 0,
     isOpenDeleteUser : false,
+    isOpenUpdateUser : false,
     idUser : 0,
 }
 
@@ -25,11 +26,14 @@ const modalSlice = createSlice({
         setIsOpenDeleteUser: (state, action) =>{
             state.isOpenDeleteUser = action.payload
         },
+        setIsOpenUpdateUser: (state,action) => {
+            state.isOpenUpdateUser = action.payload
+        },
         setIdUser : (state,action) =>{
             state.idUser = action.payload
         }
     }
 })
 
-export const {setIsOpenUpdate, setIdQuestion, setIsOpenDelete,setIsOpenDeleteUser,setIdUser} = modalSlice.actions;
+export const {setIsOpenUpdate, setIdQuestion, setIsOpenDelete,setIsOpenDeleteUser,setIdUser,setIsOpenUpdateUser} = modalSlice.actions;
 export default modalSlice.reducer;

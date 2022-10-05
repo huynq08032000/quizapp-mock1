@@ -31,7 +31,7 @@ const ModalDeleteUser = () => {
 
     return (
         <>
-            <Modal title="Delete Question Modal" open={isOpenDeleteUser} onOk={handleOk} onCancel={handleCancel} confirmLoading={statusDeleteUser}>
+            <Modal title="Delete User Modal" open={isOpenDeleteUser} onOk={handleOk} onCancel={handleCancel} confirmLoading={statusDeleteUser}>
                 {
                     status ? <LoadingComponent /> : <>
                         <Typography style={{ color: 'red' }}>Do you really want to delete this User?</Typography>

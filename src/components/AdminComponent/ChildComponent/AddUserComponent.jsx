@@ -4,7 +4,6 @@ import 'antd/dist/antd.css';
 import { Cascader, Input } from 'antd';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../../config/token";
 import { toast } from "react-toastify";
@@ -14,21 +13,14 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { regexEmail } from "../../../config/regex";
 import { createNewUserApi } from "../../../config/API";
+import { optionsRole } from "../../../ultis/ultis";
+import axiosInstance from "../../../config/customAxios";
 
 const styleInput = {
     marginTop: '10px',
     width: '100%'
 }
-const options = [
-    {
-        label: 'User',
-        value: 'user',
-    },
-    {
-        label: 'Admin',
-        value: 'admin',
-    },
-];
+
 const validationSchema = yup.object({
     name: yup
         .string('Enter your name')
@@ -49,7 +41,6 @@ const validationSchema = yup.object({
 
 const AddUserComponent = () => {
     const navigate = useNavigate()
-    const [img, setImg] = useState('')
     const [loading, setLoading] = useState(false)
     const formik = useFormik({
         initialValues: {
@@ -88,7 +79,7 @@ const AddUserComponent = () => {
         }
         setLoading(true)
         try {
-            const res = await axios.post(createNewUserApi, data, {
+            const res = await axiosInstance.post(createNewUserApi, data, {
                 headers: {
                     "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`
                 }
@@ -169,7 +160,7 @@ const AddUserComponent = () => {
                             name="roles"
                             style={styleInput}
                             placeholder='Roles'
-                            options={options}
+                            options={optionsRole}
                             onChange={onChange}
                             multiple
                             maxTagCount="responsive"

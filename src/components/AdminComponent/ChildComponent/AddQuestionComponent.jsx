@@ -4,7 +4,6 @@ import 'antd/dist/antd.css';
 import { Input, Image } from 'antd';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { createQuestion, uploadThumbnailAPI } from "../../../config/API";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../../config/token";
@@ -13,6 +12,7 @@ import { toastCss } from "../../StyleComponent/StyleCompoent";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { LoadingButton } from "@mui/lab";
+import axiosInstance from "../../../config/customAxios";
 
 const validationSchema = yup.object({
     title: yup
@@ -39,7 +39,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
     const handleAdd = async (values) => {
         setLoading(true)
         try {
-            const res = await axios.post(createQuestion, {
+            const res = await axiosInstance.post(createQuestion, {
                 "title": values.title,
                 "thumbnail_link": img,
             }, {
@@ -60,7 +60,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
         toast.info('Uploading', toastCss)
         let formData = new FormData()
         formData.append('thumbnail', e.target.files[0], e.target.files[0].name)
-        axios.post(uploadThumbnailAPI, formData, {
+        axiosInstance.post(uploadThumbnailAPI, formData, {
             headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`, "Content-Type": "multipart/form-data", }
         }).then(res => {
             setImg(res.data.data)

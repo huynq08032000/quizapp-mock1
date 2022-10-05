@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import Cookies from "js-cookie"
-import { getUserByIdApi } from "../config/API"
+import { getUserByIdApi, updateUserApi } from "../config/API"
 import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 
@@ -9,6 +9,7 @@ const initState = {
     status: false,
     statusUser: false,
     statusDeleteUser: false,
+    name: ''
 }
 
 const currentUserSlice = createSlice({
@@ -18,6 +19,12 @@ const currentUserSlice = createSlice({
         setCurrentUser: (state, action) => {
             state.currentUser = action.payload
         },
+        setName: (state, action) => {
+            state.name = action.payload
+        },
+        setRoles: (state, action) => {
+            state.currentUser.roles = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -26,6 +33,7 @@ const currentUserSlice = createSlice({
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.currentUser = action.payload;
+                state.name = action.payload.name
                 state.status = false
             })
     }
@@ -41,5 +49,5 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (idUser) => {
     }
 })
 
-export const { setCurrentUser } = currentUserSlice.actions;
+export const { setCurrentUser, setName, setRoles } = currentUserSlice.actions;
 export default currentUserSlice.reducer;
