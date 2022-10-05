@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axios from "axios"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
-import { deleteQuestionAPI, deleteUserApi, updateQuestionAPI } from "../config/API"
+import { deleteUserApi, updateQuestionAPI } from "../config/API"
 import axiosInstance from "../config/customAxios"
 import { ACCESS_TOKEN_KEY } from "../config/token"
 

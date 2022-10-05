@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axios from "axios"
 import Cookies from "js-cookie"
 import { toast } from "react-toastify"
 import { toastCss } from "../components/StyleComponent/StyleCompoent"
@@ -110,7 +109,7 @@ export const updateQuestion = createAsyncThunk('quesitons/updateQuestion', async
 
 export const deleteQuestion = createAsyncThunk('questions/deleteQuestion', async (idQuestion) => {
     try {
-        const res = await axios.delete(deleteQuestionAPI + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
+        const res = await axiosInstance.delete(deleteQuestionAPI + idQuestion, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } })
         toast.success(res.data.message, toastCss)
         return idQuestion
     } catch (err) {
