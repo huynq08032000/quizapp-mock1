@@ -26,17 +26,25 @@ axiosInstance.interceptors.request.use(async (req) => {
             req.headers.Authorization = `Bearer ${res.data.data.newTokens.access_token}`
             return req
         } catch (error) {
+            return Promise.reject(error);
         }
     } else {
-        console.log('K co refresh')
-        useNavigate()('/login')
+        return req
     }
-    return Promise.reject(req);
 }
 )
 axiosInstance.interceptors.response.use((res) => {
-    console.log(res)
     return res
+}, err => {
+    console.log(err.response.status)
+    if (err.response.status === 401) {
+        Cookies.remove()
+        localStorage.clear()
+        console.log('redirect login')
+        if(window.location.pathname=== '/login') return
+        window.location.pathname = '/login'
+    }
+    return Promise.reject(err);
 }
 );
 export default axiosInstance;
