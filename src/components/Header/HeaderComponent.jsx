@@ -17,7 +17,7 @@ import { numInArray } from "../../ultis/ultis";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { logoutApi } from "../../config/API";
-import { REFRESH_TOKEN_KEY } from "../../config/token";
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../config/token";
 import { toast } from "react-toastify";
 import { toastCss } from "../StyleComponent/StyleCompoent";
 
@@ -73,7 +73,8 @@ const HeaderComponent = () => {
                         "refresh_token": Cookies.get(REFRESH_TOKEN_KEY)
                     })
                     toast.success(res.data.message, toastCss)
-                    Cookies.remove()
+                    Cookies.remove(ACCESS_TOKEN_KEY, {path : '/'})
+                    Cookies.remove(REFRESH_TOKEN_KEY, {path : '/'})
                     localStorage.clear()
                     navigate('/login')
                 } catch (error) {
