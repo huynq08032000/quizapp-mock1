@@ -56,7 +56,7 @@ const TableUsersComponent = () => {
             const arrData = users.map((el, index) => {
                 return {
                     key: el.id,
-                    id: index + 1,
+                    id: index + (currentPage-1)*pageSize + 1,
                     idUser: el.id,
                     email: el.email,
                     name: el.name,
@@ -80,7 +80,7 @@ const TableUsersComponent = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'idUser',
-            // width: '3%',
+            width: '10%',
         },
         {
             title: 'Email',

@@ -57,7 +57,7 @@ const TableComponent = () => {
             const arrData = questions.map((el, index) => {
                 return {
                     key: el.id,
-                    id: index + 1,
+                    id: index + (currentPage-1)*pageSize + 1,
                     idQuestion: el.id,
                     title: el.title,
                     thumbnail_link: el.thumbnail_link,
@@ -80,7 +80,7 @@ const TableComponent = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'idQuestion',
-            // width: '3%',
+            width: '10%',
         },
         {
             title: 'Title',
