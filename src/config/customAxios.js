@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use((res) => {
         Cookies.remove()
         localStorage.clear()
         console.log('redirect login')
-        if(window.location.pathname=== '/login') return
+        if(window.location.pathname=== '/login' || window.location.pathname=== '/register' || window.location.pathname=== '/forgot' ) return
         window.location.pathname = '/login'
     }
     return Promise.reject(err);

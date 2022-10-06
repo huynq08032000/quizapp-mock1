@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllQuestions, setCurrentPage } from "../../../redux/adminQuestionSlice";
-import { Table, Space, Switch, Button, Modal, Input, Typography, Image } from 'antd';
+import { Table, Space, Button,  Typography, Image } from 'antd';
 import 'antd/dist/antd.css';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { defaultThumbnail } from "../../../config/regex";
 import ModalUpdate from "../Modal/ModalUpdateQuestion";
 import { setIdQuestion, setIsOpenDelete, setIsOpenUpdate } from "../../../redux/modalSilce";
 import ModalDeleteQuestion from "../Modal/ModalDeleteQuestion";
+const { Column } = Table;
 
 const TableComponent = () => {
     const moment = require("moment");
@@ -79,7 +80,7 @@ const TableComponent = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'idQuestion',
-            width: '3%',
+            // width: '3%',
         },
         {
             title: 'Title',
@@ -87,24 +88,24 @@ const TableComponent = () => {
             key: 'title',
             render: (title) => <Text>{title}</Text>,
             align: 'left',
-            width: '10%',
+            // width: '10%',
         },
         {
             title: 'Thumbnail',
             dataIndex: 'thumbnail_link',
             key: 'thumbnail_link',
             render: (key) => <Image
-                width={200}
+                width='50%'
                 src={key ? key : defaultThumbnail}
             />,
-            width: '10%',
+            // width: '10%',
             align: 'center'
         },
         {
             title: 'Create Day',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            width: '10%',
+            // width: '10%',
         },
         {
             title: 'Action',
@@ -131,7 +132,7 @@ const TableComponent = () => {
                 </Space>
             ),
             align: 'center',
-            width: '10%',
+            // width: '10%',
         }
 
     ];

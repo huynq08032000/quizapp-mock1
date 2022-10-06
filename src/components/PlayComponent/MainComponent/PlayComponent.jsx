@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import FormInputNumberQuestionComponent from "../ChildComponent/FormInputNumberQuestionComponent";
 import QuestionComponent from "../ChildComponent/QuestionComponent";
-import SubmitButtonComponent from "../ChildComponent/SubmitButtonComponent";
 import ResultComponent from "../ChildComponent/ResultComponent";
 
 const PlayComponent = () => {
@@ -23,7 +22,7 @@ const PlayComponent = () => {
                     {number > 0 ?
                         <>
                             <QuestionComponent />
-                            <SubmitButtonComponent />
+                            
                         </> : <><FormInputNumberQuestionComponent /></>
                     }
                     {

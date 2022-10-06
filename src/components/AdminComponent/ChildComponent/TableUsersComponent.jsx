@@ -80,7 +80,7 @@ const TableUsersComponent = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'idUser',
-            width: '3%',
+            // width: '3%',
         },
         {
             title: 'Email',
@@ -88,22 +88,22 @@ const TableUsersComponent = () => {
             key: 'email',
             render: (email) => <Text>{email}</Text>,
             align: 'left',
-            width: '10%',
+            // width: '10%',
         },
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
             render: (name) => <Text>{name}</Text>,
-            width: '10%',
+            // width: '10%',
             align: 'left'
         },
         {
             title: 'Avatar',
             dataIndex: 'avatar_link',
             key: 'avatar_link',
-            render: (avatar_link) => <Image width={'100px'} src={avatar_link} />,
-            width: '10%',
+            render: (avatar_link) => <Image width='70%' src={avatar_link} />,
+            // width: '10%',
             align: 'center'
         },
         {
@@ -111,15 +111,15 @@ const TableUsersComponent = () => {
             dataIndex: 'roles',
             key: 'roles',
             render: (roles) => (
-                <Space size="middle">
+                <>
                     {roles.map((el, index) => {
                         return (
                             <Tag key={index} color={colorTag[el]}>{el}</Tag>
                         )
                     })}
-                </Space>
+                </>
             ),
-            width: '10%',
+            // width: '10%',
         },
         {
             title: 'Action',
@@ -146,7 +146,7 @@ const TableUsersComponent = () => {
                 </Space>
             ),
             align: 'center',
-            width: '10%',
+            // width: '10%',
         }
 
     ];

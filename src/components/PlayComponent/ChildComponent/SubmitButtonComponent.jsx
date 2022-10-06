@@ -40,7 +40,7 @@ const SubmitButtonComponent = () => {
             <div className="center">
                 <LoadingButton color="primary" variant="contained" type="submit" style={{ margin: '10px' }}
                     onClick={handleSubmit}>Submit</LoadingButton>
-            </div>           
+            </div>
         </>
     )
 }

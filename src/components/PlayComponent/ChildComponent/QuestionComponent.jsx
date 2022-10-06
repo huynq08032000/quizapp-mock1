@@ -10,6 +10,7 @@ import { setAnswerQuestion, setIndex } from "../../../redux/questionsSlice";
 import { numInArray, setColor } from "../../../ultis/ultis";
 import { defaultThumbnail } from "../../../config/regex";
 import ThumbnailComponent from "./ThumbnailComponent";
+import SubmitButtonComponent from "./SubmitButtonComponent"
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -79,6 +80,9 @@ const QuestionComponent = () => {
                 }}
                 style={{ display: 'flex', justifyContent: 'center' }}
             />
+            {
+                index === number - 1? <SubmitButtonComponent/>:<></>
+            }
         </div>
     )
 }
