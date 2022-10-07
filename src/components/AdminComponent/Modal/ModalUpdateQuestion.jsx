@@ -44,7 +44,7 @@ const ModalUpdateQuestion = () => {
 
     const formik = useFormik({
         initialValues: {
-            title: 'Update modal'
+            title: 'Update modal',
         },
         validationSchema: validationSchema, 
         onSubmit: (values) => {
@@ -79,7 +79,8 @@ const ModalUpdateQuestion = () => {
     useEffect(() => {
         if (idQuestion > 0 && isModalUpadte) {
             dispatch(fetchQuestion(idQuestion))
-            formik.setValues(currentQuestion)
+            // formik.setValues(currentQuestion)
+            formik.setErrors({title : ''})
             dispatch(setTitleCurentQuestion(currentQuestion.title))
         }
     }, [isModalUpadte])
