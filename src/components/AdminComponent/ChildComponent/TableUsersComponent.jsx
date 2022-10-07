@@ -102,7 +102,7 @@ const TableUsersComponent = () => {
             title: 'Avatar',
             dataIndex: 'avatar_link',
             key: 'avatar_link',
-            render: (avatar_link) => <Image width='70%' src={avatar_link} />,
+            render: (avatar_link) => <Image width='50%' src={avatar_link} />,
             // width: '10%',
             align: 'center'
         },

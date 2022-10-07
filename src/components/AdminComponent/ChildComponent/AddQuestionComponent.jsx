@@ -118,7 +118,7 @@ const AddQuestionComponent = () => {
 
                 </div>
                 <div className="form-submit" style={{ marginTop: '10px' }}>
-                    <LoadingButton variant="contained" fullWidth onClick={formik.handleSubmit} loading={loading}>Add</LoadingButton>
+                    <LoadingButton variant="contained" fullWidth onClick={formik.handleSubmit} loading={loading} style={{backgroundColor : '#1976d2'}}>Add</LoadingButton>
                 </div>
             </div>
             <ModalUpdateQuestion/>
