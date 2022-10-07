@@ -27,7 +27,7 @@ const UserManagementComponent = () => {
                     <div className="btn">
                         <Button type="primary" variant="contained"
                             onClick={() => {
-                                navigate('/admin/addUser')
+                                navigate('/admin/users/addUser')
                             }}
                             endIcon={<AddIcon />
                             }>Add</Button>

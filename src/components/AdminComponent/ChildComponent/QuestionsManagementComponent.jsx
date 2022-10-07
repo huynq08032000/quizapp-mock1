@@ -27,7 +27,7 @@ const QuestionsManagementCompoent = () => {
                     <div className="btn">
                         <Button type="primary" variant="contained" 
                         onClick={()=>{
-                            navigate('/admin/addQuestion')
+                            navigate('/admin/questions/addQuestion')
                         }}                        
                         endIcon={<AddIcon />
                         }>Add</Button>

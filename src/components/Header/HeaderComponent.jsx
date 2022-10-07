@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { numInArray } from "../../ultis/ultis";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -73,8 +73,8 @@ const HeaderComponent = () => {
                         "refresh_token": Cookies.get(REFRESH_TOKEN_KEY)
                     })
                     toast.success(res.data.message, toastCss)
-                    Cookies.remove(ACCESS_TOKEN_KEY, {path : '/'})
-                    Cookies.remove(REFRESH_TOKEN_KEY, {path : '/'})
+                    Cookies.remove(ACCESS_TOKEN_KEY, { path: '/' })
+                    Cookies.remove(REFRESH_TOKEN_KEY, { path: '/' })
                     localStorage.clear()
                     navigate('/login')
                 } catch (error) {
@@ -84,7 +84,7 @@ const HeaderComponent = () => {
     ]
     return (
         <>
-            <AppBar position="static">
+            <AppBar position="static" style={{backgroundColor : '#001529'}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         {/* <Typography
@@ -159,16 +159,17 @@ const HeaderComponent = () => {
                         </Typography> */}
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {numInArray('admin', userRoles) && pages.map((page) => (
-                                <Button
-                                    key={page.title}
-                                    onClick={() => {
-                                        handleCloseNavMenu()
-                                        handleNavigate(page.href)
-                                    }}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page.title}
-                                </Button>
+                                // <Button
+                                //     key={page.title}
+                                //     onClick={() => {
+                                //         handleCloseNavMenu()
+                                //         handleNavigate(page.href)
+                                //     }}
+                                //     sx={{ my: 2, color: 'white', display: 'block' }}
+                                // >
+                                //     {page.title}
+                                // </Button>
+                                <NavLink to={page.href} key={page.title} style={{minHeight : '64px', display : 'flex', alignItems : 'center', padding : '0 20px', fontWeight : '500px'}}>{page.title}</NavLink>
                             ))}
                         </Box>
 

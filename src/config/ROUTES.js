@@ -33,7 +33,7 @@ const ROUTES = [
         role : ['admin']
     },
     {
-        path : 'admin/addQuestion',
+        path : 'admin/questions/addQuestion',
         component : <AdminAddQuestionComponent/>,
         role : ['admin']
     },
@@ -43,7 +43,7 @@ const ROUTES = [
         role : ['admin']
     },
     {
-        path : 'admin/addUser',
+        path : 'admin/users/addUser',
         component : <AdminAddUserComponent/>,
         role : ['admin']
     }
