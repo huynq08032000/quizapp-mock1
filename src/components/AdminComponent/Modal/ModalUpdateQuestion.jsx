@@ -44,7 +44,7 @@ const ModalUpdateQuestion = () => {
 
     const formik = useFormik({
         initialValues: {
-            title: currentQuestion.title
+            title: 'Update modal'
         },
         validationSchema: validationSchema, 
         onSubmit: (values) => {

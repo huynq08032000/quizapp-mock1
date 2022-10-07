@@ -10,13 +10,11 @@ const SearchQuestionsComponent = () => {
     const pageSize = useSelector(state => state.questionsAdminSlice.pageSize)
     const order = useSelector(state => state.questionsAdminSlice.order)
     const sortField = useSelector(state => state.questionsAdminSlice.sortField)
-    const currentPage = useSelector(state => state.questionsAdminSlice.currentPage)
     const loading = useSelector(state => state.questionsAdminSlice.status)
     const title = useSelector(state => state.questionsAdminSlice.title)
     const handleOrder = (e) => {
         dispatch(setOrder(e.target.value))
     };
-
     const handleSortField = (value) => {
         dispatch(setSortField(value))
     };

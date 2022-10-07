@@ -13,6 +13,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { LoadingButton } from "@mui/lab";
 import axiosInstance from "../../../config/customAxios";
+import { useDispatch } from "react-redux";
+import { setIdQuestion, setIsOpenUpdate } from "../../../redux/modalSilce";
+import ModalUpdateQuestion from "../Modal/ModalUpdateQuestion";
 
 const validationSchema = yup.object({
     title: yup
@@ -20,7 +23,8 @@ const validationSchema = yup.object({
         .required("Title is required"),
 });
 
-const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
+const AddQuestionComponent = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [img, setImg] = useState('')
     const [loading, setLoading] = useState(false)
@@ -48,6 +52,9 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
                 }
             })
             toast.success(res.data.message, toastCss)
+            console.log(res.data.data.id)
+            dispatch(setIsOpenUpdate(true))
+            dispatch(setIdQuestion(res.data.data.id))
             formik.resetForm()
             setImg('')
         } catch (error) {
@@ -114,6 +121,7 @@ const AddQuestionComponent = ({ handleOnSubmit, label, formInit }) => {
                     <LoadingButton variant="contained" fullWidth onClick={formik.handleSubmit} loading={loading}>Add</LoadingButton>
                 </div>
             </div>
+            <ModalUpdateQuestion/>
         </>
     )
 }
