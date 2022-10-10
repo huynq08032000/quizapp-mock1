@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import 'antd/dist/antd.css';
 import { Button, Space, Radio, Select, Input } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers, setOrderUsers, setRole1, setSortFieldUsers } from "../../../redux/userAdminSlice";
+import { fetchAllUsers, setKeyWord, setOrderUsers, setRole1, setSortFieldUsers } from "../../../redux/userAdminSlice";
 
 const SearchUsersComponent = () => {
     const dispatch = useDispatch()
@@ -13,6 +13,8 @@ const SearchUsersComponent = () => {
     const currentPage = useSelector(state => state.userAdminSlice.currentPage)
     const loading = useSelector(state => state.userAdminSlice.status)
     const role1 = useSelector(state => state.userAdminSlice.role1)
+    const keyWord = useSelector(state => state.userAdminSlice.keyWord)
+
     const handleOrder = (e) => {
         dispatch(setOrderUsers(e.target.value))
     };
@@ -23,7 +25,9 @@ const SearchUsersComponent = () => {
     const handleRole1 = (value) => {
         dispatch(setRole1(value))
     };
-
+    const handleKeyWorld = (value) => {
+        dispatch(setKeyWord(value))
+    }
     const handleOnSearch = () => {
         const paramSearch = {
             order: order,
@@ -33,6 +37,9 @@ const SearchUsersComponent = () => {
         }
         if (role1 !== '') {
             paramSearch.role1 = role1
+        }
+        if (keyWord !== "") {
+            paramSearch.keyWord = keyWord
         }
         dispatch(fetchAllUsers(paramSearch))
     }
@@ -64,6 +71,7 @@ const SearchUsersComponent = () => {
                     <Select.Option value="user">User</Select.Option>
                     <Select.Option value="admin">Admin</Select.Option>
                 </Select>
+                <Input value={keyWord} placeholder='Input key word' onChange={(e)=>handleKeyWorld(e.target.value)}/>
                 <Radio.Group onChange={handleOrder} value={order}>
                     <Radio value={'ASC'}>Ascending</Radio>
                     <Radio value={'DESC'}>Descending</Radio>

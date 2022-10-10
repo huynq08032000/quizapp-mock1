@@ -16,6 +16,7 @@ const initState = {
     order: 'ASC',
     sortField: 'id',
     role1: '',
+    keyWord : '',
     statusUpdateQuestion: false,
     statusDeleteQuestion: false,
     statusDeleteUser: false,
@@ -46,6 +47,9 @@ const userAdminSlice = createSlice({
         },
         setRole1: (state, action) => {
             state.role1 = action.payload
+        },
+        setKeyWord : (state, action) => {
+            state.keyWord = action.payload
         }
 
     },
@@ -118,5 +122,5 @@ export const deleteUser = createAsyncThunk('users/deleteUser', async (idUser) =>
         toast.error('Delete failed', toastCss)
     }
 })
-export const { setListUsers, setCurrentPageUsers, setOrderUsers, setSortFieldUsers, setIsDeleteUser, setRole1 } = userAdminSlice.actions;
+export const { setListUsers, setCurrentPageUsers, setOrderUsers, setSortFieldUsers, setIsDeleteUser, setRole1, setKeyWord } = userAdminSlice.actions;
 export default userAdminSlice.reducer;

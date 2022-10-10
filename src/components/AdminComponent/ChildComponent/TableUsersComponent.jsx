@@ -20,6 +20,7 @@ const TableUsersComponent = () => {
     const currentPage = useSelector(state => state.userAdminSlice.currentPage)
     const users = useSelector(state => state.userAdminSlice.users)
     const role1 = useSelector(state => state.userAdminSlice.role1)
+    const keyWord = useSelector(state => state.userAdminSlice.keyWord)
     const [data, setData] = useState([])
     const isDeleteUser = useSelector(state => state.userAdminSlice.isDeleteUser)
     const isUpdateUser = useSelector(state => state.userAdminSlice.isUpdateUser)
@@ -46,6 +47,9 @@ const TableUsersComponent = () => {
             }
             if (role1 !== '') {
                 paramSearch.role1 = role1
+            }
+            if (keyWord !== '') {
+                paramSearch.keyWord = keyWord
             }
             dispatch(fetchAllUsers(paramSearch))
         }
