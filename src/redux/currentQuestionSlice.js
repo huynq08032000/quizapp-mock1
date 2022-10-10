@@ -88,7 +88,10 @@ export const createAnswer = createAsyncThunk('questions/createAnswer', async (da
 
 export const updateAnswer = createAsyncThunk('questions/updateAnswer', async (data) => {
     try {
-        const tempData = { is_correct: data.is_correct }
+        const tempData = { 
+            content : data.content,
+            is_correct: data.is_correct 
+        }
         const res = await axiosInstance.patch(
             updateAnswerApi + data.id, tempData, { headers: { "Authorization": `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` } }
         )

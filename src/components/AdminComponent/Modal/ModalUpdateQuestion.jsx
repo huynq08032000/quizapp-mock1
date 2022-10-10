@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'antd/dist/antd.css';
 import { Button, Modal, Input, Image } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsOpenUpdate } from '../../../redux/modalSilce';
 import { deleteAnswer, fetchQuestion, setThumbailCurrentQuestion, setTitleCurentQuestion, updateAnswer } from '../../../redux/currentQuestionSlice';
@@ -35,6 +35,9 @@ const ModalUpdateQuestion = () => {
     const statusDeleteAnswer = useSelector(state => state.currentQuestion.statusDeleteAnswer)
     const statusUpdateAnswer = useSelector(state => state.currentQuestion.statusUpdateAnswer)
     const statusUpdateQuestion = useSelector(state => state.questionsAdminSlice.statusUpdateQuestion)
+    const [valueUpdate, setValueUpdate] = useState('')
+    const [idUpdate, setIdUpdate] = useState('')
+    const isCorrect = useRef(false)
     const handleOk = () => {
         // dispatch(setIsOpenUpdate(false))
         formik.handleSubmit()
@@ -70,13 +73,26 @@ const ModalUpdateQuestion = () => {
         }).catch(err => toast.error(err.message, toastCss))
 
     }
-
-    const handleCheck = (id, check) => {
-        console.log(id, check)
-        const data = { id: id, is_correct: !check }
+    const handleUpdate = (value) => {
+        isCorrect.current = value.is_correct
+        setIdUpdate(value.id)
+        setValueUpdate(value.content)
+    }
+    const handleSave = () => {
+        if(valueUpdate === '') {
+            toast.error('Invalid answer', toastCss)
+            return
+        }
+        handleCheck(idUpdate, valueUpdate, !isCorrect.current)
+        resetUpdate()
+    }
+    const handleCheck = (id, content, check) => {
+        const data = { id: id, content: content, is_correct: !check }
         dispatch(updateAnswer(data))
     }
-
+    const handleCancelUpdate = () => {
+        resetUpdate()
+    }
     useEffect(() => {
         if (idQuestion > 0 && isModalUpadte) {
             dispatch(fetchQuestion(idQuestion))
@@ -88,6 +104,11 @@ const ModalUpdateQuestion = () => {
 
     const handleDelete = (idAnswer) => {
         dispatch(deleteAnswer(idAnswer))
+    }
+    const resetUpdate = () => {
+        isCorrect.current = false
+        setValueUpdate('')
+        setIdUpdate(0)
     }
     return (
         <>
@@ -119,6 +140,7 @@ const ModalUpdateQuestion = () => {
                     {currentQuestion.answers?.map(el => {
                         return (
                             <div key={el.id}>
+                                <Button type="primary" icon={<EditOutlined />} size='small' style={{ marginRight: '20px', backgroundColor: 'green' }} onClick={() => handleUpdate(el)} />
                                 <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} onClick={() => handleDelete(el.id)} loading={statusDeleteAnswer} />
                                 <FormControlLabel
                                     label={el.content}
@@ -127,11 +149,17 @@ const ModalUpdateQuestion = () => {
                                             name='rememberMe'
                                             color='primary'
                                             checked={el.is_correct}
-                                            onClick={() => handleCheck(el.id, el.is_correct)}
+                                            onClick={() => handleCheck(el.id, el.content, el.is_correct)}
                                         />
                                     }
-
                                 />
+                                {el.id === idUpdate ? <>
+                                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                        <Input value={valueUpdate} onChange={(e) => setValueUpdate(e.target.value)} />
+                                        <Button type='primary' danger onClick={handleCancelUpdate}>Cancel</Button>
+                                        <Button type='primary' onClick={handleSave} loading={statusUpdateAnswer}>Save</Button>
+                                    </div>
+                                </> : <></>}
                             </div>
                         )
                     })}
