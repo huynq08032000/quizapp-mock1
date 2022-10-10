@@ -108,7 +108,7 @@ const ModalUpdateQuestion = () => {
     const resetUpdate = () => {
         isCorrect.current = false
         setValueUpdate('')
-        setIdUpdate(0)
+        setIdUpdate('')
     }
     return (
         <>
@@ -155,8 +155,8 @@ const ModalUpdateQuestion = () => {
                                 />
                                 {el.id === idUpdate ? <>
                                     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                        <Input value={valueUpdate} onChange={(e) => setValueUpdate(e.target.value)} />
-                                        <Button type='primary' danger onClick={handleCancelUpdate}>Cancel</Button>
+                                        <Input value={valueUpdate} style={{marginRight : '10px'}} onChange={(e) => setValueUpdate(e.target.value)} />
+                                        <Button type='primary' style={{marginRight : '10px'}} danger onClick={handleCancelUpdate}>Cancel</Button>
                                         <Button type='primary' onClick={handleSave} loading={statusUpdateAnswer}>Save</Button>
                                     </div>
                                 </> : <></>}
