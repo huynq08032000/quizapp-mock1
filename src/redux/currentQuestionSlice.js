@@ -9,6 +9,7 @@ const initState = {
     status: false,
     statusAnswer: false,
     statusDeleteAnswer: false,
+    statusUpdateAnswer : false
 }
 
 const currentQuestionSlice = createSlice({
@@ -41,11 +42,15 @@ const currentQuestionSlice = createSlice({
                 state.statusAnswer = false
                 state.currentQuestion.answers.push(action.payload)
             })
+            .addCase(updateAnswer.pending, (state, action) => {
+                state.statusUpdateAnswer = true
+            })
             .addCase(updateAnswer.fulfilled, (state, action) => {
                 state.currentQuestion.answers = state.currentQuestion.answers.map((el) => {
                     if (el.id === action.payload.id) return action.payload
                     else return el
                 })
+                state.statusUpdateAnswer = false
             })
             .addCase(deleteAnswer.pending, (state, action) => {
                 state.statusDeleteAnswer = true

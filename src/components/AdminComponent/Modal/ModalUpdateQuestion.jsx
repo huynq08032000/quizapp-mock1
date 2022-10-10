@@ -33,6 +33,7 @@ const ModalUpdateQuestion = () => {
     const currentQuestion = useSelector(state => state.currentQuestion.currentQuestion)
     const status = useSelector(state => state.currentQuestion.status)
     const statusDeleteAnswer = useSelector(state => state.currentQuestion.statusDeleteAnswer)
+    const statusUpdateAnswer = useSelector(state => state.currentQuestion.statusUpdateAnswer)
     const statusUpdateQuestion = useSelector(state => state.questionsAdminSlice.statusUpdateQuestion)
     const handleOk = () => {
         // dispatch(setIsOpenUpdate(false))
@@ -46,7 +47,7 @@ const ModalUpdateQuestion = () => {
         initialValues: {
             title: 'Update modal',
         },
-        validationSchema: validationSchema, 
+        validationSchema: validationSchema,
         onSubmit: (values) => {
             dispatch(updateQuestion(currentQuestion))
         }
@@ -72,7 +73,7 @@ const ModalUpdateQuestion = () => {
 
     const handleCheck = (id, check) => {
         console.log(id, check)
-        const data = {id : id, is_correct : !check}
+        const data = { id: id, is_correct: !check }
         dispatch(updateAnswer(data))
     }
 
@@ -80,7 +81,7 @@ const ModalUpdateQuestion = () => {
         if (idQuestion > 0 && isModalUpadte) {
             dispatch(fetchQuestion(idQuestion))
             // formik.setValues(currentQuestion)
-            formik.setErrors({title : ''})
+            formik.setErrors({ title: '' })
             dispatch(setTitleCurentQuestion(currentQuestion.title))
         }
     }, [isModalUpadte])
@@ -118,7 +119,7 @@ const ModalUpdateQuestion = () => {
                     {currentQuestion.answers?.map(el => {
                         return (
                             <div key={el.id}>
-                                <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} onClick = {() => handleDelete(el.id)} loading={statusDeleteAnswer}/>                 
+                                <Button type="primary" icon={<DeleteOutlined />} danger size='small' style={{ marginRight: '20px' }} onClick={() => handleDelete(el.id)} loading={statusDeleteAnswer} />
                                 <FormControlLabel
                                     label={el.content}
                                     control={
@@ -134,7 +135,8 @@ const ModalUpdateQuestion = () => {
                             </div>
                         )
                     })}
-                    <AddAnswerComponent idQuestion = {currentQuestion.id} />
+                    {statusUpdateAnswer && <LoadingComponent />}
+                    <AddAnswerComponent idQuestion={currentQuestion.id} />
                 </>}
 
 
